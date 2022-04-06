@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>images/happy.png</file>
+        <file>images/sad.png</file>
+        <file>images/settings.png</file>
+        <file>CustomButton.qml</file>
+        <file>SettingsPage.qml</file>
+        <file>images/test.png</file>
+        <file>sounds/slash-21834.wav</file>
+        <file>sounds/eye_of_the_tiger.mp3</file>
+        <file>sounds/eye_of_the_tiger.wav</file>
+    </qresource>
+</RCC>
