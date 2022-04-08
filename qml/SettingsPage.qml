@@ -10,8 +10,8 @@ Item {
     signal call()
     property int showWidth
 
-    property bool her: false
-    property string targetItemName
+    property bool detailVoice: false
+    property bool detailOpacity: false
 
     Rectangle {
         x: -400
@@ -46,7 +46,6 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 100
 
-//            textDelegate: true
             valueText: "eye_of_the_tiger.mp3"
 
             buttonText: "Мелодия будильника"
@@ -64,7 +63,6 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 210
 
-//            textDelegate: true
             valueText: "100 %"
 
             buttonText: "Громкость звонка"
@@ -72,10 +70,10 @@ Item {
             z: 2
 
             onClickedRound: {
-                if (her === false) {
-                    her = true
+                if (detailVoice === false) {
+                    detailVoice = true
                 } else {
-                    her = false
+                    detailVoice = false
                 }
             }
         }
@@ -92,7 +90,6 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-//            textDelegate: true
             valueText: "мои котики"
 
             buttonText: "Фоновое изображение"
@@ -110,19 +107,16 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-//            targetItemName: imageOpacity
-
-//            textDelegate: true
             additionalItem: true
             valueText: "30 %"
 
-//            onClickedRound: {
-//                if (her === false) {
-//                    her = true
-//                } else {
-//                    her = false
-//                }
-//            }
+            onClickedRound: {
+                if (detailOpacity === false) {
+                    detailOpacity = true
+                } else {
+                    detailOpacity = false
+                }
+            }
 
             buttonText: "Прозрачность изображения"
         }
@@ -171,7 +165,7 @@ Item {
             anchors.left: selectSound.left
 
             background: Rectangle {
-                color: "transparent"/*"#FCFCFC"*/
+                color: "transparent"
                 radius: 15
             }
 
@@ -217,32 +211,43 @@ Item {
         }
     }
 
-    CheckBox {
-        text: "hide/show"
-        id: someswitch
-        x: 10
-        y: 10
+    Item
+    {
+        visible: false
 
-        checked: true
+        state: "hiddenVoiceSound"
+        states: [
+            State {
+                name: "VoiceSound"
+                when: detailVoice === true
+                PropertyChanges { target: voiceSound; height: 210 }
+            },
+            State {
+                name: "hiddenVoiceSound"
+                when: someswitch.checked
+                PropertyChanges { target: voiceSound; height: 100 }
+            }
+        ]
+        transitions: Transition {
+             PropertyAnimation { property: "height"; duration: 300; easing.type: Easing.InOutQuad }
+        }
+    }
 
-        anchors.top: parent.top
-        anchors.topMargin: 30
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width / 2
-
+    Item
+    {
         visible: false
 
         state: "hidden"
         states: [
             State {
                 name: "shown"
-                when: her === true
-                PropertyChanges { target: voiceSound/*imageOpacity*/; height: 210 }
+                when: detailOpacity === true
+                PropertyChanges { target: imageOpacity; height: 210 }
             },
             State {
                 name: "hidden"
                 when: someswitch.checked
-                PropertyChanges { target: voiceSound/*imageOpacity*/; height: 100 }
+                PropertyChanges { target: imageOpacity; height: 100 }
             }
         ]
         transitions: Transition {
