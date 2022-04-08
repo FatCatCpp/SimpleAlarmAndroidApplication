@@ -45,8 +45,9 @@ Item {
             radius: 6
 
             border.color: active ? customButton.borderColor : "#23232323"
-            color: orangeColor ? (parent.down ? "#c93813" : (parent.hovered ? "#E03F16" : "#E74117")) :
-                                 (parent.down ? "#dedede" : (parent.hovered ? "#eaeaea" : "#f7f7f7"))
+//            color: orangeColor ? (parent.down ? "#c93813" : (parent.hovered ? "#E03F16" : "#E74117")) :
+//                                 (parent.down ? "#dedede" : (parent.hovered ? "#eaeaea" : "#f7f7f7"))
+            color: "#32A852"
         }
     }
 
