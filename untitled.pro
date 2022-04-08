@@ -37,4 +37,3 @@ DISTFILES += \
     images/happy.png \
     images/sad.png \
     images/settings.png \
-    qml/SettingsPage.qml

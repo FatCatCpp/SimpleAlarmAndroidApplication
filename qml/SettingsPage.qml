@@ -17,7 +17,6 @@ Item {
 
         anchors.fill: parent
         color: "#F0F0F0"
-//        color: "transparent"
 
         Image {
             id: backgroundImage
