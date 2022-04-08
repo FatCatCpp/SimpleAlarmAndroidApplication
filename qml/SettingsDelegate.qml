@@ -10,7 +10,7 @@ Item {
     signal clickedRound()
 
     property string buttonText
-    property bool textDelegate: true
+    property bool additionalItem: true
     property string valueText
 
     property bool isRotation: false
@@ -42,7 +42,7 @@ Item {
         Text {
             id: valueTextDescription
             text: qsTr(valueText)
-            visible: textDelegate
+//            visible: textDelegate
 
             anchors.top: titleText.bottom
             anchors.topMargin: 5
@@ -77,20 +77,19 @@ Item {
                 height: parent.height
 
                 anchors.fill: parent
+            }
 
-//                rotation: isRotation ? 180 : 0
-
-                RotationAnimator {
-                    target: forward;
-                    from: 0;
-                    to: 180;
-                    duration: 500
-                    running: clickedRound()
-                }
+            RotationAnimator {
+                id: imageRotetion
+                target: forward
+                from: !isRotation ? 0 : 180
+                to: !isRotation ? 180 : 0
+                duration: 300
             }
 
             onClicked: {
                 clickedRound()
+                imageRotetion.running = true
                 isRotation : !isRotation ? isRotation = true : isRotation = false
             }
         }
@@ -100,7 +99,7 @@ Item {
 
             width: parent.width / 2
 
-            visible: textDelegate === false
+            visible: additionalItem === true
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top

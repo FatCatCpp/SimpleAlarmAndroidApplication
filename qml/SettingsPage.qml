@@ -11,6 +11,7 @@ Item {
     property int showWidth
 
     property bool her: false
+    property string targetItemName
 
     Rectangle {
         x: -400
@@ -45,8 +46,8 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 100
 
-            textDelegate: true
-            valueText: "eye_of_the_tiger"
+//            textDelegate: true
+            valueText: "eye_of_the_tiger.mp3"
 
             buttonText: "Мелодия будильника"
         }
@@ -63,9 +64,20 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 210
 
-            textDelegate: false
+//            textDelegate: true
+            valueText: "100 %"
 
             buttonText: "Громкость звонка"
+
+            z: 2
+
+            onClickedRound: {
+                if (her === false) {
+                    her = true
+                } else {
+                    her = false
+                }
+            }
         }
 
         SettingsDelegate {
@@ -80,7 +92,8 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-            textDelegate: false
+//            textDelegate: true
+            valueText: "мои котики"
 
             buttonText: "Фоновое изображение"
         }
@@ -97,15 +110,19 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-            textDelegate: false
+//            targetItemName: imageOpacity
 
-            onClickedRound: {
-                if (her === false) {
-                    her = true
-                } else {
-                    her = false
-                }
-            }
+//            textDelegate: true
+            additionalItem: true
+            valueText: "30 %"
+
+//            onClickedRound: {
+//                if (her === false) {
+//                    her = true
+//                } else {
+//                    her = false
+//                }
+//            }
 
             buttonText: "Прозрачность изображения"
         }
@@ -154,7 +171,7 @@ Item {
             anchors.left: selectSound.left
 
             background: Rectangle {
-                color: "#FCFCFC"
+                color: "transparent"/*"#FCFCFC"*/
                 radius: 15
             }
 
@@ -213,23 +230,23 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 2
 
-
+        visible: false
 
         state: "hidden"
         states: [
             State {
                 name: "shown"
                 when: her === true
-                PropertyChanges { target: imageOpacity; height: 200 }
+                PropertyChanges { target: voiceSound/*imageOpacity*/; height: 210 }
             },
             State {
                 name: "hidden"
                 when: someswitch.checked
-                PropertyChanges { target: imageOpacity; height: 100 }
+                PropertyChanges { target: voiceSound/*imageOpacity*/; height: 100 }
             }
         ]
         transitions: Transition {
-             PropertyAnimation { property: "height"; duration: 500; easing.type: Easing.InOutQuad }
+             PropertyAnimation { property: "height"; duration: 300; easing.type: Easing.InOutQuad }
         }
     }
 
