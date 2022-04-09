@@ -3,12 +3,14 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 import QtMultimedia 5.12
+import QtQuick.Dialogs 1.3
 
 Item {
     id: mainWnd
 
     signal call()
     property int showWidth
+    property real opacityValue: 0.3
 
     Rectangle {
         x: 30
@@ -26,7 +28,7 @@ Item {
 
             anchors.fill: parent
 
-            opacity: 0.3
+            opacity: opacityValue
         }
 
         Switch {
@@ -123,7 +125,7 @@ Item {
 
             onClicked: {
                 call()
-    //            activationWindow.state = "showAuthWindow"
+//                fileDialog.open()
             }
 
             width: 30
@@ -221,6 +223,24 @@ Item {
             id: sound
             source: "qrc:/sounds/slash-21834.wav"
 //            volume:
+        }
+
+        FileDialog {
+            id: fileDialog
+
+            nameFilters: ["Text files (*.txt)", "All files (*)"]
+            selectExisting: false
+
+            title: "Пожалуйста, выберите папку для сохранения отчёта"
+
+            folder: shortcuts.pictures
+            onAccepted: {
+                var filePath = fileDialog.fileUrl.toString().replace("file:///", "")
+//                TokenManager.writeReport(filePath)
+            }
+            onRejected: {
+                console.log("Canceled")
+            }
         }
     }
 

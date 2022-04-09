@@ -12,7 +12,7 @@ Item {
     property string buttonText
     property bool additionalItem: true
     property string valueText
-
+    property real opacityValue
     property bool isRotation: false
 
     height: 100
@@ -91,6 +91,7 @@ Item {
                 clickedRound()
                 imageRotetion.running = true
                 isRotation : !isRotation ? isRotation = true : isRotation = false
+                opacityValue = opacitySlider.value / 100
             }
         }
 
@@ -148,6 +149,7 @@ Item {
 
             onValueChanged: {
                 backgroundImage.opacity = value / 100
+                valueText = Math.round(value).toString() + "%"
             }
         }
 

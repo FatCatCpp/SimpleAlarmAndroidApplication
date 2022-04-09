@@ -12,6 +12,7 @@ Item {
 
     property bool detailVoice: false
     property bool detailOpacity: false
+    property real userOpacityValue
 
     Rectangle {
         x: -400
@@ -113,8 +114,17 @@ Item {
             onClickedRound: {
                 if (detailOpacity === false) {
                     detailOpacity = true
+                    backgroundImage.visible = true
+                    selectSound.visible = false
+                    selectImage.visible = false
+                    voiceSound.visible = false
                 } else {
                     detailOpacity = false
+                    backgroundImage.visible = false
+                    selectSound.visible = true
+                    selectImage.visible = true
+                    voiceSound.visible = true
+                    userOpacityValue = opacityValue
                 }
             }
 
@@ -184,7 +194,10 @@ Item {
                 anchors.topMargin: 10
             }
 
-            onClicked: call()
+            onClicked: {
+                call()
+                mainForm.opacityValue = userOpacityValue
+            }
         }
 
         Audio {
