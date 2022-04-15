@@ -95,63 +95,81 @@ Item {
             }
         }
 
-        Slider {
+        CustomSlider {
             id: opacitySlider
 
             width: parent.width / 2
+            height: 30
 
-            visible: additionalItem === true
+            /*visible: */additionalItem: additionalItem
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: 130
+            anchors.topMargin: /*1*/30
 
-            background: Rectangle {
-                x: opacitySlider.leftPadding
-                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
-                implicitWidth: 200
-                implicitHeight: 12
-                width: opacitySlider.availableWidth
-                height: implicitHeight
-                radius: 2
-                color: "#bdbebf"
-
-                Rectangle {
-                    width: opacitySlider.visualPosition * parent.width
-                    height: parent.height
-                    LinearGradient {
-                        anchors.fill: parent
-                        start: Qt.point(0, 0)
-                        end: Qt.point(300, 0)
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "#05EDFE" }
-                            GradientStop { position: 1.0; color: "#2E9BFE" }
-                        }
-                    }
-                    radius: 4
-                }
-            }
-
-            handle: Rectangle {
-                x: opacitySlider.leftPadding + opacitySlider.visualPosition *
-                   (opacitySlider.availableWidth - width)
-                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
-                implicitWidth: 26
-                implicitHeight: 26
-                radius: 13
-                color: opacitySlider.pressed ? "#f0f0f0" : "#f6f6f6"
-                border.color: "#bdbebf"
-            }
-
-            from: 1
-            value: 30
-            to: 100
-
-            onValueChanged: {
+            onSliderValueChanged: {
                 backgroundImage.opacity = value / 100
                 valueText = Math.round(value).toString() + "%"
             }
         }
+
+//        Slider {
+//            id: opacitySlider
+
+//            width: parent.width / 2
+
+//            visible: additionalItem === true
+
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            anchors.top: parent.top
+//            anchors.topMargin: 130
+
+//            background: Rectangle {
+//                x: opacitySlider.leftPadding
+//                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
+//                implicitWidth: 200
+//                implicitHeight: 12
+//                width: opacitySlider.availableWidth
+//                height: implicitHeight
+//                radius: 2
+//                color: "#bdbebf"
+
+//                Rectangle {
+//                    width: opacitySlider.visualPosition * parent.width
+//                    height: parent.height
+//                    LinearGradient {
+//                        anchors.fill: parent
+//                        start: Qt.point(0, 0)
+//                        end: Qt.point(300, 0)
+//                        gradient: Gradient {
+//                            GradientStop { position: 0.0; color: "#05EDFE" }
+//                            GradientStop { position: 1.0; color: "#2E9BFE" }
+//                        }
+//                    }
+//                    radius: 4
+//                }
+//            }
+
+//            handle: Rectangle {
+//                x: opacitySlider.leftPadding + opacitySlider.visualPosition *
+//                   (opacitySlider.availableWidth - width)
+//                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
+//                implicitWidth: 26
+//                implicitHeight: 26
+//                radius: 13
+//                color: opacitySlider.pressed ? "#f0f0f0" : "#f6f6f6"
+//                border.color: "#bdbebf"
+//            }
+
+//            from: 1
+//            value: 30
+//            to: 100
+
+//            onValueChanged: {
+//                backgroundImage.opacity = value / 100
+//                valueText = Math.round(value).toString() + "%"
+//            }
+//        }
 
         layer.enabled: true
         layer.effect: DropShadow {
@@ -159,7 +177,7 @@ Item {
             horizontalOffset: 0
             verticalOffset: 6
             radius: 6
-            color: "#171717"
+            color: "#A7A7A7"
             opacity: 0.8
         }
     }

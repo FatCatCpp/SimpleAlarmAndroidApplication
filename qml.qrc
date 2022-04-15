@@ -18,5 +18,10 @@
         <file>qml/MainPage.qml</file>
         <file>qml/SettingsDelegate.qml</file>
         <file>qml/SettingsPage.qml</file>
+        <file>images/pause_1.png</file>
+        <file>images/play_1.png</file>
+        <file>images/stop_1.png</file>
+        <file>images/folder.png</file>
+        <file>qml/CustomSlider.qml</file>
     </qresource>
 </RCC>

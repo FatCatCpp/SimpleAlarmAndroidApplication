@@ -8,11 +8,17 @@ Item {
     id: item
 
     signal call()
+
     property int showWidth
 
     property bool detailVoice: false
     property bool detailOpacity: false
+    property bool detailSelectSound: false
+    property bool detailImage: false
+
     property real userOpacityValue
+
+    property int playStatus // 0 - stopped; 1 - played; 2 - paused
 
     Rectangle {
         x: -400
@@ -47,9 +53,128 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 100
 
+            additionalItem: false
+
+            z: 4
+
             valueText: "eye_of_the_tiger.mp3"
 
             buttonText: "Мелодия будильника"
+
+            RoundButton {
+                id: buttonSelectSound
+
+                width: 40
+                height: 40
+
+                anchors {
+                    left: parent.left
+                    leftMargin: (parent.width - 5 * width) / 2
+                    top: parent.top
+                    topMargin: 150
+                }
+
+                background: Rectangle {
+                    color: "transparent"
+                }
+
+                Image {
+                    id: openMusicFolder
+                    source: "qrc:/images/folder.png"
+
+                    width: parent.width
+                    height: parent.height
+
+                    anchors.fill: parent
+                }
+
+                onClicked: {
+
+                }
+            }
+
+            RoundButton {
+                id: buttonPlay
+
+                width: 40
+                height: 40
+
+                anchors {
+                    left: buttonSelectSound.right
+                    leftMargin: width
+                    top: parent.top
+                    topMargin: 150
+                }
+
+                background: Rectangle {
+                    color: "transparent"
+                }
+
+                Image {
+                    id: playImage
+                    source: "qrc:/images/play_1.png"
+
+                    width: parent.width
+                    height: parent.height
+
+                    anchors.fill: parent
+                }
+
+                onClicked: {
+                    if (playStatus === 1) {
+                        alarmAudio.pause()
+                        playImage.source = "qrc:/images/play_1.png"
+                    } else if (playStatus === 2 || playStatus === 0) {
+                        alarmAudio.play()
+                        playImage.source = "qrc:/images/pause_1.png"
+                    }
+                }
+            }
+
+            RoundButton {
+                id: buttonStop
+
+                width: 40
+                height: 40
+
+                anchors {
+                    left: buttonPlay.right
+                    leftMargin: width
+                    top: parent.top
+                    topMargin: 150
+                }
+
+                background: Rectangle {
+                    color: "transparent"
+                }
+
+                Image {
+                    id: stopImage
+                    source: "qrc:/images/stop_1.png"
+
+                    width: parent.width
+                    height: parent.height
+
+                    anchors.fill: parent
+                }
+
+                onClicked: {
+                    if (playStatus === 1) {
+                        stopImage.enabled = false
+                        alarmAudio.stop()
+                    } else {
+                        stopImage.enabled = true
+                    }
+                }
+            }
+
+            onClickedRound: {
+                if (detailSelectSound === false) {
+                    detailSelectSound = true
+                } else {
+                    detailSelectSound = false
+                }
+            }
         }
 
         SettingsDelegate {
@@ -66,9 +191,11 @@ Item {
 
             valueText: "100 %"
 
+            additionalItem: true
+
             buttonText: "Громкость звонка"
 
-            z: 2
+            z: 3
 
             onClickedRound: {
                 if (detailVoice === false) {
@@ -91,9 +218,21 @@ Item {
             width: parent.width * 0.9
             height: 100
 
+            additionalItem: false
+
+            z: 2
+
             valueText: "мои котики"
 
             buttonText: "Фоновое изображение"
+
+            onClickedRound: {
+                if (detailImage === false) {
+                    detailImage = true
+                } else {
+                    detailImage = false
+                }
+            }
         }
 
         SettingsDelegate {
@@ -203,6 +342,18 @@ Item {
         Audio {
             id: alarmAudio
 
+            onPaused: {
+                playStatus = 2;
+            }
+
+            onPlaying: {
+                playStatus = 1;
+            }
+
+            onStopped: {
+                playStatus = 0;
+            }
+
             source: "qrc:/sounds/eye_of_the_tiger.mp3"
         }
     }
@@ -231,7 +382,7 @@ Item {
         state: "hiddenVoiceSound"
         states: [
             State {
-                name: "VoiceSound"
+                name: "showVoiceSound"
                 when: detailVoice === true
                 PropertyChanges { target: voiceSound; height: 210 }
             },
@@ -268,6 +419,49 @@ Item {
         }
     }
 
+    Item
+    {
+        visible: false
+
+        state: "hiddenSelectSound"
+        states: [
+            State {
+                name: "shownSelectSound"
+                when: detailSelectSound === true
+                PropertyChanges { target: selectSound; height: 210 }
+            },
+            State {
+                name: "hiddenSelectSound"
+                when: someswitch.checked
+                PropertyChanges { target: selectSound; height: 100 }
+            }
+        ]
+        transitions: Transition {
+             PropertyAnimation { property: "height"; duration: 300; easing.type: Easing.InOutQuad }
+        }
+    }
+
+    Item
+    {
+        visible: false
+
+        state: "hiddenSelectSound"
+        states: [
+            State {
+                name: "shownSelectSound"
+                when: detailImage === true
+                PropertyChanges { target: selectImage; height: 210 }
+            },
+            State {
+                name: "hiddenSelectSound"
+                when: someswitch.checked
+                PropertyChanges { target: selectImage; height: 100 }
+            }
+        ]
+        transitions: Transition {
+             PropertyAnimation { property: "height"; duration: 300; easing.type: Easing.InOutQuad }
+        }
+    }
 
 
     focus: true // important - otherwise we'll get no key events
