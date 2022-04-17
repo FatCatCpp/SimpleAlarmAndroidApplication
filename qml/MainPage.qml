@@ -92,23 +92,12 @@ Item {
             }
         }
 
-        Button {
+        CustomRoundButton {
             id: settingsButton
 
-            onClicked: {
-                call()
-//                fileDialog.open()
-            }
+            diameter: 30
 
-            width: 30
-            height: 30
-
-            Image {
-                source: "qrc:/images/settings.png"
-                anchors.fill: parent
-            }
-
-            opacity: settingsButton.down ? 0.8 : (settingsButton.hovered ? 0.9 : 1)
+            sourcePath: "qrc:/images/settings.png"
 
             anchors {
                 right: parent.right
@@ -118,17 +107,9 @@ Item {
                 topMargin: 30
             }
 
-            background: Rectangle {
-                color: "transparent"
-            }
-
-            MouseArea {
-                id: buttonArea
-                anchors.fill: parent
-
-                cursorShape: Qt.PointingHandCursor
-
-                onPressed: mouse.accepted = false
+            onClick: {
+                call()
+//                fileDialog.open() // TODO: temp
             }
         }
 
