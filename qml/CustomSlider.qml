@@ -7,17 +7,10 @@ Rectangle {
 
     signal sliderValueChanged(int value)
     property bool additionalItem: false
+    property int sliderDefaulrValue: 30
 
     Slider {
         id: opacitySlider
-
-        width: parent.width / 2
-
-        visible: additionalItem === true
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 130
 
         background: Rectangle {
             x: opacitySlider.leftPadding
@@ -26,7 +19,7 @@ Rectangle {
             implicitHeight: 12
             width: opacitySlider.availableWidth
             height: implicitHeight
-            radius: 2
+            radius: 4/*2*/
             color: "#bdbebf"
 
             Rectangle {
@@ -41,7 +34,7 @@ Rectangle {
                         GradientStop { position: 1.0; color: "#2E9BFE" }
                     }
                 }
-                radius: 4
+                radius: 4/*4*/
             }
         }
 
@@ -57,12 +50,10 @@ Rectangle {
         }
 
         from: 1
-        value: 30
+        value: sliderDefaulrValue
         to: 100
 
         onValueChanged: {
-    //        backgroundImage.opacity = value / 100
-    //        valueText = Math.round(value).toString() + "%"
             sliderValueChanged(value)
         }
     }

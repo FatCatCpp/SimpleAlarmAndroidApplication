@@ -132,7 +132,7 @@ Item {
             height: 30
 
             Image {
-                source: "qrc:/images/settings_1.png"
+                source: "qrc:/images/settings.png"
                 anchors.fill: parent
             }
 

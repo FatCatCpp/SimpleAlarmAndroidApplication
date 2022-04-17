@@ -69,7 +69,7 @@ Item {
 
             Image {
                 id: forward
-                source: "qrc:/images/chevron_1.png"
+                source: "qrc:/images/chevron.png"
 
                 width: parent.width
                 height: parent.height

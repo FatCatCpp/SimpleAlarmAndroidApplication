@@ -18,7 +18,7 @@ Item {
 
     property real userOpacityValue
 
-    property int playStatus // 0 - stopped; 1 - played; 2 - paused
+    property int playStatus: 0 // 0 - stopped; 1 - played; 2 - paused
 
     Rectangle {
         x: -400
@@ -61,109 +61,76 @@ Item {
 
             buttonText: "Мелодия будильника"
 
-            RoundButton {
+            CustomRoundButton {
                 id: buttonSelectSound
 
-                width: 40
-                height: 40
+                diameter: 40
+
+                visible: false
 
                 anchors {
                     left: parent.left
                     leftMargin: (parent.width - 5 * width) / 2
                     top: parent.top
-                    topMargin: 150
+                    topMargin: 40
                 }
 
-                background: Rectangle {
-                    color: "transparent"
-                }
-
-                Image {
-                    id: openMusicFolder
-                    source: "qrc:/images/folder.png"
-
-                    width: parent.width
-                    height: parent.height
-
-                    anchors.fill: parent
-                }
-
-                onClicked: {
-
-                }
+                sourcePath: "qrc:/images/folder.png"
             }
 
-            RoundButton {
+            CustomRoundButton {
                 id: buttonPlay
 
-                width: 40
-                height: 40
+                diameter: 40
+
+                visible: false
 
                 anchors {
                     left: buttonSelectSound.right
                     leftMargin: width
                     top: parent.top
-                    topMargin: 150
+                    topMargin: 40
                 }
 
-                background: Rectangle {
-                    color: "transparent"
-                }
+                sourcePath: "qrc:/images/play.png"
 
-                Image {
-                    id: playImage
-                    source: "qrc:/images/play_1.png"
-
-                    width: parent.width
-                    height: parent.height
-
-                    anchors.fill: parent
-                }
-
-                onClicked: {
+                onClick: {
                     if (playStatus === 1) {
                         alarmAudio.pause()
-                        playImage.source = "qrc:/images/play_1.png"
+                        sourcePath = "qrc:/images/play.png"
+                        buttonStop.opacity = 1
                     } else if (playStatus === 2 || playStatus === 0) {
                         alarmAudio.play()
-                        playImage.source = "qrc:/images/pause_1.png"
+                        sourcePath = "qrc:/images/pause.png"
                     }
                 }
             }
 
-            RoundButton {
+            CustomRoundButton {
                 id: buttonStop
 
-                width: 40
-                height: 40
+                diameter: 40
+
+                visible: false
 
                 anchors {
                     left: buttonPlay.right
                     leftMargin: width
                     top: parent.top
-                    topMargin: 150
+                    topMargin: 40
                 }
 
-                background: Rectangle {
-                    color: "transparent"
-                }
+                sourcePath: "qrc:/images/stop.png"
 
-                Image {
-                    id: stopImage
-                    source: "qrc:/images/stop_1.png"
-
-                    width: parent.width
-                    height: parent.height
-
-                    anchors.fill: parent
-                }
-
-                onClicked: {
+                onClick: {
                     if (playStatus === 1) {
-                        stopImage.enabled = false
+                        buttonStop.enabled = false
                         alarmAudio.stop()
+                        opacity = 0.3
+                        buttonPlay.sourcePath = "qrc:/images/play.png"
                     } else {
-                        stopImage.enabled = true
+                        buttonStop.enabled = true
+                        opacity = 1
                     }
                 }
             }
@@ -171,8 +138,12 @@ Item {
             onClickedRound: {
                 if (detailSelectSound === false) {
                     detailSelectSound = true
+
+                    hideButtons(true)
                 } else {
                     detailSelectSound = false
+
+                    hideButtons(false)
                 }
             }
         }
@@ -195,13 +166,43 @@ Item {
 
             buttonText: "Громкость звонка"
 
+            CustomSlider {
+                id: voiceSlider
+
+                visible: false
+
+                width: parent.width / 2
+                height: 30
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 40
+
+                sliderDefaulrValue: 30
+
+                onSliderValueChanged: {
+                    voiceSlider.valueText = Math.round(value).toString() + "%"
+                    alarmAudio.volume = value / 100
+                }
+            }
+
             z: 3
 
             onClickedRound: {
                 if (detailVoice === false) {
                     detailVoice = true
+
+                    voiceSlider.visible = true
+
+                    alarmAudio.play()
+
+
                 } else {
                     detailVoice = false
+
+                    alarmAudio.stop()
+
+                    voiceSlider.visible = false
                 }
             }
         }
@@ -226,11 +227,36 @@ Item {
 
             buttonText: "Фоновое изображение"
 
+            CustomRoundButton {
+                id: selectImageButton
+
+                diameter: 40
+
+                visible: false
+
+                anchors {
+                    left: parent.left
+                    leftMargin: (parent.width - width) / 2
+                    top: parent.top
+                    topMargin: 40
+                }
+
+                sourcePath: "qrc:/images/folder.png"
+
+                onClick: {
+
+                }
+            }
+
             onClickedRound: {
                 if (detailImage === false) {
                     detailImage = true
+
+                    selectImageButton.visible = true
                 } else {
                     detailImage = false
+
+                    selectImageButton.visible = false
                 }
             }
         }
@@ -250,6 +276,26 @@ Item {
             additionalItem: true
             valueText: "30 %"
 
+            CustomSlider {
+                id: imageOpacitySlider
+
+                visible: false
+
+                width: parent.width / 2
+                height: 30
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 40
+
+                sliderDefaulrValue: 30
+
+                onSliderValueChanged: {
+                    backgroundImage.opacity = value / 100
+                    imageOpacity.valueText = Math.round(value).toString() + "%"
+                }
+            }
+
             onClickedRound: {
                 if (detailOpacity === false) {
                     detailOpacity = true
@@ -257,6 +303,8 @@ Item {
                     selectSound.visible = false
                     selectImage.visible = false
                     voiceSound.visible = false
+
+                    imageOpacitySlider.visible = true
                 } else {
                     detailOpacity = false
                     backgroundImage.visible = false
@@ -264,6 +312,8 @@ Item {
                     selectImage.visible = true
                     voiceSound.visible = true
                     userOpacityValue = opacityValue
+
+                    imageOpacitySlider.visible = false
                 }
             }
 
@@ -320,7 +370,7 @@ Item {
 
             Image {
                 id: name
-                source: "qrc:/images/chevron_1.png"
+                source: "qrc:/images/chevron.png"
                 rotation: 180
 
                 width: 30
@@ -344,14 +394,17 @@ Item {
 
             onPaused: {
                 playStatus = 2;
+                console.log("Pause!!!!")
             }
 
             onPlaying: {
                 playStatus = 1;
+                console.log("Play!!!!")
             }
 
             onStopped: {
                 playStatus = 0;
+                console.log("Stop!!!!")
             }
 
             source: "qrc:/sounds/eye_of_the_tiger.mp3"
@@ -461,6 +514,12 @@ Item {
         transitions: Transition {
              PropertyAnimation { property: "height"; duration: 300; easing.type: Easing.InOutQuad }
         }
+    }
+
+    function hideButtons(stateButtons) {
+        buttonSelectSound.visible = stateButtons
+        buttonStop.visible = stateButtons
+        buttonPlay.visible = stateButtons
     }
 
 
