@@ -31,38 +31,13 @@ Item {
             opacity: opacityValue
         }
 
-        Switch {
+        CustomSwitch {
             id: everyDaySwitch
 
-            checked: true
+            on: false
 
-            indicator: Rectangle {
-                implicitWidth: 48
-                implicitHeight: 26
-                x: everyDaySwitch.leftPadding
-                y: parent.height / 2 - height / 2
-                radius: 13
-                color: everyDaySwitch.checked ? "#05EDFE" : "#ffffff"
-                border.color: everyDaySwitch.checked ? "#cccccc" : "#cccccc"
-
-                Rectangle {
-                    x: everyDaySwitch.checked ? parent.width - width : 0
-                    width: 26
-                    height: 26
-                    radius: 13
-                    color: everyDaySwitch.down ? "#cccccc" : "#ffffff"
-                    border.color: everyDaySwitch.checked ? (everyDaySwitch.down ? "#999999" : "#999999") : "#999999"
-                }
-            }
-
-            contentItem: Text {
-                text: everyDaySwitch.text
-                font: everyDaySwitch.font
-                opacity: enabled ? 1.0 : 0.3
-                color: everyDaySwitch.down ? "#05EDFE" : "#21be2b"
-                verticalAlignment: Text.AlignVCenter
-                leftPadding: everyDaySwitch.indicator.width + everyDaySwitch.spacing
-            }
+            switchWidth: 60
+            switchHeight: 30
 
             anchors {
                 top: parent.top
@@ -71,11 +46,53 @@ Item {
                 left: parent.left
                 leftMargin: 30
             }
-
-            onCheckedChanged: {
-                alarmAudio.play()
-            }
         }
+
+//        Switch {
+//            id: everyDaySwitch
+
+//            checked: true
+
+//            indicator: Rectangle {
+//                implicitWidth: 48
+//                implicitHeight: 26
+//                x: everyDaySwitch.leftPadding
+//                y: parent.height / 2 - height / 2
+//                radius: 13
+//                color: everyDaySwitch.checked ? "#05EDFE" : "#ffffff"
+//                border.color: everyDaySwitch.checked ? "#cccccc" : "#cccccc"
+
+//                Rectangle {
+//                    x: everyDaySwitch.checked ? parent.width - width : 0
+//                    width: 26
+//                    height: 26
+//                    radius: 13
+//                    color: everyDaySwitch.down ? "#cccccc" : "#ffffff"
+//                    border.color: everyDaySwitch.checked ? (everyDaySwitch.down ? "#999999" : "#999999") : "#999999"
+//                }
+//            }
+
+//            contentItem: Text {
+//                text: everyDaySwitch.text
+//                font: everyDaySwitch.font
+//                opacity: enabled ? 1.0 : 0.3
+//                color: everyDaySwitch.down ? "#05EDFE" : "#21be2b"
+//                verticalAlignment: Text.AlignVCenter
+//                leftPadding: everyDaySwitch.indicator.width + everyDaySwitch.spacing
+//            }
+
+//            anchors {
+//                top: parent.top
+//                topMargin: 30
+
+//                left: parent.left
+//                leftMargin: 30
+//            }
+
+//            onCheckedChanged: {
+//                alarmAudio.play()
+//            }
+//        }
 
         Audio {
             id: alarmAudio

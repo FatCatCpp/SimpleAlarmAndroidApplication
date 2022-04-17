@@ -19,5 +19,8 @@
         <file>images/settings.png</file>
         <file>images/stop.png</file>
         <file>qml/CustomRoundButton.qml</file>
+        <file>qml/CustomSwitch.qml</file>
+        <file>images/backgroundSwitch.png</file>
+        <file>images/knob.png</file>
     </qresource>
 </RCC>
