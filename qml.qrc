@@ -6,21 +6,21 @@
         <file>sounds/eye_of_the_tiger.mp3</file>
         <file>images/basic.png</file>
         <file>images/check.png</file>
-        <file>qml/CustomButton.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainPage.qml</file>
         <file>qml/SettingsDelegate.qml</file>
         <file>qml/SettingsPage.qml</file>
         <file>images/folder.png</file>
-        <file>qml/CustomSlider.qml</file>
         <file>images/chevron.png</file>
         <file>images/pause.png</file>
         <file>images/play.png</file>
         <file>images/settings.png</file>
         <file>images/stop.png</file>
-        <file>qml/CustomRoundButton.qml</file>
-        <file>qml/CustomSwitch.qml</file>
         <file>images/backgroundSwitch.png</file>
         <file>images/knob.png</file>
+        <file>qml/components/CustomButton.qml</file>
+        <file>qml/components/CustomRoundButton.qml</file>
+        <file>qml/components/CustomSlider.qml</file>
+        <file>qml/components/CustomSwitch.qml</file>
     </qresource>
 </RCC>
