@@ -49,52 +49,6 @@ Item {
             }
         }
 
-//        Switch {
-//            id: everyDaySwitch
-
-//            checked: true
-
-//            indicator: Rectangle {
-//                implicitWidth: 48
-//                implicitHeight: 26
-//                x: everyDaySwitch.leftPadding
-//                y: parent.height / 2 - height / 2
-//                radius: 13
-//                color: everyDaySwitch.checked ? "#05EDFE" : "#ffffff"
-//                border.color: everyDaySwitch.checked ? "#cccccc" : "#cccccc"
-
-//                Rectangle {
-//                    x: everyDaySwitch.checked ? parent.width - width : 0
-//                    width: 26
-//                    height: 26
-//                    radius: 13
-//                    color: everyDaySwitch.down ? "#cccccc" : "#ffffff"
-//                    border.color: everyDaySwitch.checked ? (everyDaySwitch.down ? "#999999" : "#999999") : "#999999"
-//                }
-//            }
-
-//            contentItem: Text {
-//                text: everyDaySwitch.text
-//                font: everyDaySwitch.font
-//                opacity: enabled ? 1.0 : 0.3
-//                color: everyDaySwitch.down ? "#05EDFE" : "#21be2b"
-//                verticalAlignment: Text.AlignVCenter
-//                leftPadding: everyDaySwitch.indicator.width + everyDaySwitch.spacing
-//            }
-
-//            anchors {
-//                top: parent.top
-//                topMargin: 30
-
-//                left: parent.left
-//                leftMargin: 30
-//            }
-
-//            onCheckedChanged: {
-//                alarmAudio.play()
-//            }
-//        }
-
         Audio {
             id: alarmAudio
 
@@ -175,65 +129,6 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 onPressed: mouse.accepted = false
-            }
-        }
-
-        Slider {
-            id: opacitySlider
-
-            visible: false
-
-            width: parent.width / 2
-
-            anchors.top: parent.top
-            anchors.topMargin: 100
-
-            anchors.left: parent.left
-            anchors.leftMargin: 50
-
-            background: Rectangle {
-                x: opacitySlider.leftPadding
-                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
-                implicitWidth: 200
-                implicitHeight: 12
-                width: opacitySlider.availableWidth
-                height: implicitHeight
-                radius: 2
-                color: "#bdbebf"
-
-                Rectangle {
-                    width: opacitySlider.visualPosition * parent.width
-                    height: parent.height
-                    LinearGradient {
-                        anchors.fill: parent
-                        start: Qt.point(0, 0)
-                        end: Qt.point(300, 0)
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "#05EDFE" }
-                            GradientStop { position: 1.0; color: "#2E9BFE" }
-                        }
-                    }
-                    radius: 4
-                }
-            }
-
-            handle: Rectangle {
-                x: opacitySlider.leftPadding + opacitySlider.visualPosition *
-                   (opacitySlider.availableWidth - width)
-                y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
-                implicitWidth: 26
-                implicitHeight: 26
-                radius: 13
-                color: opacitySlider.pressed ? "#f0f0f0" : "#f6f6f6"
-                border.color: "#bdbebf"
-            }
-
-            from: 1
-            value: 30
-            to: 100
-
-            onValueChanged: {
-                backgroundImage.opacity = value / 100
             }
         }
 
