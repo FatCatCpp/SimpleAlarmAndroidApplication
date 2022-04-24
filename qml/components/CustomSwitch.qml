@@ -4,16 +4,22 @@ Item {
     id: customSwitch
     width: background.width; height: background.height
 
+    signal switchCheckedChanged(bool stateSwitch)
+
     property bool on: false
 
     property int switchWidth
     property int switchHeight
 
     function toggle() {
-        if (customSwitch.state == "on")
+        if (customSwitch.state == "on") {
             customSwitch.state = "off"
-        else
+            switchCheckedChanged(false)
+        }
+        else {
             customSwitch.state = "on"
+            switchCheckedChanged(true)
+        }
     }
 
     function releaseSwitch() {

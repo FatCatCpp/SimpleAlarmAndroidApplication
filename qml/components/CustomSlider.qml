@@ -6,7 +6,6 @@ Rectangle {
     id: customSlider
 
     signal sliderValueChanged(int value)
-    property bool additionalItem: false
     property int sliderDefaulrValue: 30
 
     Slider {

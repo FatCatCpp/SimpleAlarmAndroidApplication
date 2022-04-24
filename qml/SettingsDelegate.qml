@@ -10,10 +10,11 @@ Item {
     signal clickedRound()
 
     property string buttonText
-    property bool additionalItem: true
+    property bool buttonVisible: true
     property string valueText
     property real opacityValue
     property bool isRotation: false
+    property bool cornerRound: true
 
     height: 100
 
@@ -26,7 +27,7 @@ Item {
 
         width: parent.width * 0.8
 
-        radius: 30
+        radius: cornerRound ? 30 : 0
 
         Text {
             id: titleText
@@ -55,6 +56,8 @@ Item {
 
             width: 30
             height: 30
+
+            visible: buttonVisible
 
             anchors {
                 right: parent.right

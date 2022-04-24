@@ -54,7 +54,7 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 100
 
-            additionalItem: false
+            buttonVisible: true
 
             z: 4
 
@@ -163,7 +163,7 @@ Item {
 
             valueText: "100 %"
 
-            additionalItem: true
+            buttonVisible: true
 
             buttonText: "Громкость звонка"
 
@@ -220,7 +220,7 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-            additionalItem: false
+            buttonVisible: true
 
             z: 2
 
@@ -274,7 +274,7 @@ Item {
             width: parent.width * 0.9
             height: 100
 
-            additionalItem: true
+            buttonVisible: true
             valueText: "30 %"
 
             CustomSlider {

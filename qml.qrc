@@ -22,5 +22,6 @@
         <file>qml/components/CustomRoundButton.qml</file>
         <file>qml/components/CustomSlider.qml</file>
         <file>qml/components/CustomSwitch.qml</file>
+        <file>images/cancel.png</file>
     </qresource>
 </RCC>
