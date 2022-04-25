@@ -15,10 +15,10 @@ Rectangle {
             x: opacitySlider.leftPadding
             y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
             implicitWidth: 200
-            implicitHeight: 12
+            implicitHeight: 24/*12*/
             width: opacitySlider.availableWidth
             height: implicitHeight
-            radius: 4/*2*/
+            radius: 12/*2*/
             color: "#bdbebf"
 
             Rectangle {
@@ -41,9 +41,9 @@ Rectangle {
             x: opacitySlider.leftPadding + opacitySlider.visualPosition *
                (opacitySlider.availableWidth - width)
             y: opacitySlider.topPadding + opacitySlider.availableHeight / 2 - height / 2
-            implicitWidth: 26
-            implicitHeight: 26
-            radius: 13
+            implicitWidth: 20/*26*/
+            implicitHeight: 20/*26*/
+            radius: 10/*13*/
             color: opacitySlider.pressed ? "#f0f0f0" : "#f6f6f6"
             border.color: "#bdbebf"
         }

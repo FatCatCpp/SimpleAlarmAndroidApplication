@@ -81,27 +81,6 @@ Item {
                 }
             }
 
-            CustomSwitch {
-                id: everyDaySwitch
-
-                on: false
-
-                switchWidth: 60
-                switchHeight: 30
-
-                anchors {
-                    top: parent.top
-                    topMargin: 30
-
-                    left: parent.left
-                    leftMargin: 30
-                }
-
-                onSwitchCheckedChanged: {
-                    switchState = stateSwitch
-                }
-            }
-
             state: "hidden"
             states: [
                 State {
@@ -119,6 +98,42 @@ Item {
             ]
             transitions: Transition {
                  PropertyAnimation { property: "height"; duration: 250; easing.type: Easing.InOutQuad }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+
+                onClicked: {
+                    if (switchState === false)
+                        switchState = true
+                    else
+                        switchState = false
+                }
+            }
+        }
+
+        CustomSwitch {
+            id: everyDaySwitch
+
+            on: false
+
+            visible: !switchState;
+
+            switchWidth: 60
+            switchHeight: 30
+
+            anchors {
+                verticalCenter: parent.verticalCenter
+
+                left: parent.left
+                leftMargin: 30
+            }
+
+            onSwitchCheckedChanged: {
+                    stateSwitch ? alarmText.opacity = 1 : alarmText.opacity = 0.4
             }
         }
 
