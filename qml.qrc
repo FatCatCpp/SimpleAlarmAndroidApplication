@@ -23,5 +23,6 @@
         <file>qml/components/CustomSlider.qml</file>
         <file>qml/components/CustomSwitch.qml</file>
         <file>images/cancel.png</file>
+        <file>qml/components/CustomPopup.qml</file>
     </qresource>
 </RCC>

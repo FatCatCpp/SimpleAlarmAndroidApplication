@@ -12,7 +12,11 @@ Item {
     signal call()
     property int showWidth
     property real opacityValue: 0.3
-    property bool switchState: false
+    property bool alarmFullView: false
+    property bool alarmSet: false
+
+    property int alarmHours: 10
+    property int alarmMinutes: 34
 
     Rectangle {
         x: 30
@@ -52,7 +56,7 @@ Item {
             Text {
                 id: alarmText
 
-                text: "12:34"
+                text: alarmHours.toString() + ":" + alarmMinutes.toString()
                 font {
                     pixelSize: 35
                     family: "Helvetica"
@@ -72,6 +76,8 @@ Item {
                     alarmText.visible = false
                     tumblerHours.visible = true
                     tumblerMinutes.visible = true
+
+                    alarmSet = false
                 } else {
                     cornerRound = true
 
@@ -85,13 +91,13 @@ Item {
             states: [
                 State {
                     name: "shown"
-                    when: switchState
+                    when: alarmFullView
                     PropertyChanges { target: alarmDelegate; height: parent.height }
                     PropertyChanges { target: alarmDelegate; width: parent.width }
                 },
                 State {
                     name: "hidden"
-                    when: !switchState
+                    when: !alarmFullView
                     PropertyChanges { target: alarmDelegate; height: 150 }
                     PropertyChanges { target: alarmDelegate; width: parent.width * 0.9 }
                 }
@@ -107,10 +113,58 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 onClicked: {
-                    if (switchState === false)
-                        switchState = true
-                    else
-                        switchState = false
+                    if (alarmFullView === false)
+                        alarmFullView = true
+                }
+            }
+
+            CustomRoundButton {
+                id: cancelAlarmButton
+
+                diameter: 30
+
+                sourcePath: "qrc:/images/cancel.png"
+
+                visible: alarmFullView
+
+                anchors {
+                    left: parent.left
+                    leftMargin: 30
+
+                    top: parent.top
+                    topMargin: 30
+                }
+
+                onClick: {
+                    alarmFullView = false
+                }
+            }
+
+            CustomRoundButton {
+                id: applyAlarmButton
+
+                diameter: 30
+
+                sourcePath: "qrc:/images/check.png"
+
+                visible: alarmFullView
+
+                anchors {
+                    right: parent.right
+                    rightMargin: 30
+
+                    top: parent.top
+                    topMargin: 30
+                }
+
+                onClick: {
+                    alarmSet = true
+                    alarmFullView = false
+
+                    alarmHours = tumblerHours.currentIndex
+                    alarmMinutes = tumblerMinutes.currentIndex
+
+                    everyDaySwitch.on = true
                 }
             }
         }
@@ -120,7 +174,7 @@ Item {
 
             on: false
 
-            visible: !switchState;
+            visible: !alarmFullView
 
             switchWidth: 60
             switchHeight: 30
@@ -133,7 +187,7 @@ Item {
             }
 
             onSwitchCheckedChanged: {
-                    stateSwitch ? alarmText.opacity = 1 : alarmText.opacity = 0.4
+                stateSwitch ? alarmText.opacity = 1 : alarmText.opacity = 0.4
             }
         }
 
@@ -144,12 +198,14 @@ Item {
 
             font.pixelSize: 30
 
-            visible: switchState
+            visible: alarmFullView
 
             width: 30
             height: mainWnd.height / 2
 
             spacing: 25
+
+            currentIndex: alarmHours
 
             Rectangle {
                 anchors.left: parent.left
@@ -205,10 +261,12 @@ Item {
 
             font.pixelSize: 30
 
-            visible: switchState
+            visible: alarmFullView
 
             width: 30
             height: mainWnd.height / 2
+
+            currentIndex: alarmMinutes
 
             anchors.top: tumblerHours.top
             anchors.left: tumblerHours.right
@@ -226,6 +284,8 @@ Item {
 
             sourcePath: "qrc:/images/settings.png"
 
+            visible: !alarmFullView
+
             anchors {
                 right: parent.right
                 rightMargin: 30
@@ -237,6 +297,46 @@ Item {
             onClick: {
                 call()
 //                fileDialog.open() // TODO: temp
+            }
+        }
+
+        CustomPopup {
+            id: popupMessage
+
+            width: parent.width / 3 * 2
+
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            opacity: 0
+
+            anchors.top: parent.top
+            anchors.topMargin: parent.height * 0.8
+            anchors.left: parent.left
+            anchors.leftMargin: 60
+
+            textPopup: "Будильник установлен"
+
+
+            OpacityAnimator {
+                target: popupMessage
+                from: 0;
+                to: 1;
+                duration: 300
+                running: alarmSet === true
+
+                onStopped: {
+                    timer.start()
+                }
+            }
+        }
+
+        Timer {
+            id: timer
+
+            interval: 3000; running: true;
+
+            onTriggered: {
+                popupMessage.opacity = 0
             }
         }
 
@@ -257,7 +357,6 @@ Item {
             folder: shortcuts.pictures
             onAccepted: {
                 var filePath = fileDialog.fileUrl.toString().replace("file:///", "")
-//                TokenManager.writeReport(filePath)
             }
             onRejected: {
                 console.log("Canceled")
