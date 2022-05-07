@@ -15,8 +15,10 @@ Item {
     property bool alarmFullView: false
     property bool alarmSet: false
 
-    property int alarmHours: 10
-    property int alarmMinutes: 34
+    property int alarmHours: 12
+    property int alarmMinutes: 59
+
+    property string her
 
     Rectangle {
         x: 30
@@ -49,7 +51,7 @@ Item {
             id: alarmDelegate
 
             width: parent.width * 0.9
-            height: 150
+            height: parent.height * 0.12
 
             buttonVisible: false
 
@@ -58,7 +60,7 @@ Item {
 
                 text: alarmHours.toString() + ":" + alarmMinutes.toString()
                 font {
-                    pixelSize: 35
+                    pixelSize: 25
                     family: "Helvetica"
                 }
 
@@ -98,7 +100,7 @@ Item {
                 State {
                     name: "hidden"
                     when: !alarmFullView
-                    PropertyChanges { target: alarmDelegate; height: 150 }
+                    PropertyChanges { target: alarmDelegate; height: parent.height * 0.12 }
                     PropertyChanges { target: alarmDelegate; width: parent.width * 0.9 }
                 }
             ]
@@ -165,6 +167,7 @@ Item {
                     alarmMinutes = tumblerMinutes.currentIndex
 
                     everyDaySwitch.on = true
+                    everyDaySwitch.state = "on"
                 }
             }
         }
@@ -176,8 +179,8 @@ Item {
 
             visible: !alarmFullView
 
-            switchWidth: 60
-            switchHeight: 30
+            switchWidth: 45
+            switchHeight: 20
 
             anchors {
                 verticalCenter: parent.verticalCenter
@@ -188,8 +191,21 @@ Item {
 
             onSwitchCheckedChanged: {
                 stateSwitch ? alarmText.opacity = 1 : alarmText.opacity = 0.4
+                alarmSet = true
             }
         }
+
+//        CustomTumbler {
+//            id: tumblerHours
+
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.left: parent.left
+//            anchors.leftMargin: parent.width / 3
+
+//            tumblerVisible: alarmFullView
+
+//            tumblerModel: Controller.createHours()
+//        }
 
         Tumbler {
             id: tumblerHours
@@ -303,7 +319,7 @@ Item {
         CustomPopup {
             id: popupMessage
 
-            width: parent.width / 3 * 2
+//            width: parent.width / 3 * 2
 
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -311,8 +327,9 @@ Item {
 
             anchors.top: parent.top
             anchors.topMargin: parent.height * 0.8
+//            anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 60
+            anchors.leftMargin: 70
 
             textPopup: "Будильник установлен"
 

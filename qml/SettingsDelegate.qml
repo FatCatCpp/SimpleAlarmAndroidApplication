@@ -16,7 +16,7 @@ Item {
     property bool isRotation: false
     property bool cornerRound: true
 
-    height: 100
+//    height: 100
 
     Rectangle {
         id: area

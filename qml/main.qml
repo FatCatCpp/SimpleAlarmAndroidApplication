@@ -6,24 +6,22 @@ import QtMultimedia 5.12
 
 ApplicationWindow {
     id: mainWindow
-    width: 640
-    height: 480
+
     visible: true
-    title: qsTr("Hello World")
 
     color: "#F0F0F0"
 
     MainPage {
-        id: mainForm
+        id: mainPage
 
         anchors.fill: parent
         onCall: {
-            newWindow.state = "show"
+            settingsPage.state = "show"
         }
     }
 
     SettingsPage {
-        id: newWindow
+        id: settingsPage
 
         state: ""
 
@@ -33,7 +31,8 @@ ApplicationWindow {
         height: parent.height
 
         onCall: {
-            newWindow.state = ""
+            settingsPage.state = ""
+            mainPage.opacityValue = picOpacity
         }
     }
 }

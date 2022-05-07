@@ -8,7 +8,7 @@ import "components"
 Item {
     id: item
 
-    signal call()
+    signal call(int picOpacity)
 
     property int showWidth
 
@@ -385,8 +385,8 @@ Item {
             }
 
             onClicked: {
-                call()
-                mainForm.opacityValue = userOpacityValue
+                call(userOpacityValue)
+//                mainForm.opacityValue = userOpacityValue
             }
         }
 

@@ -1,7 +1,6 @@
 #include "controller.h"
 
-Controller::Controller(QObject *parent) : QObject(parent)
-{
+Controller::Controller(QObject *parent) : QObject(parent) {
 
 }
 
@@ -35,52 +34,65 @@ QStringList Controller::createMinutes() {
 
 int Controller::opacity() const
 {
-    return m_opacity;
+    return _opacity;
 }
 
 void Controller::setOpacity(int newOpacity)
 {
-    if (m_opacity == newOpacity)
+    if (_opacity == newOpacity)
         return;
-    m_opacity = newOpacity;
+    _opacity = newOpacity;
     emit opacityChanged();
 }
 
 int Controller::voice() const
 {
-    return m_voice;
+    return _voice;
 }
 
 void Controller::setVoice(int newVoice)
 {
-    if (m_voice == newVoice)
+    if (_voice == newVoice)
         return;
-    m_voice = newVoice;
+    _voice = newVoice;
     emit voiceChanged();
 }
 
 const QString &Controller::image() const
 {
-    return m_image;
+    return _image;
 }
 
 void Controller::setImage(const QString &newImage)
 {
-    if (m_image == newImage)
+    if (_image == newImage)
         return;
-    m_image = newImage;
+    _image = newImage;
     emit imageChanged();
 }
 
 const QString &Controller::audio() const
 {
-    return m_audio;
+    return _audio;
 }
 
 void Controller::setAudio(const QString &newAudio)
 {
-    if (m_audio == newAudio)
+    if (_audio == newAudio)
         return;
-    m_audio = newAudio;
+    _audio = newAudio;
     emit audioChanged();
+}
+
+const QTime &Controller::alarmTime() const
+{
+    return _alarmTime;
+}
+
+void Controller::setAlarmTime(const QTime &newAlatmTime)
+{
+    if (_alarmTime == newAlatmTime)
+        return;
+    _alarmTime = newAlatmTime;
+    emit alarmTimeChanged();
 }

@@ -3,17 +3,11 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QTime>
 
 class Controller : public QObject
 {
     Q_OBJECT
-    int m_opacity;
-
-    int m_voice;
-
-    QString m_image;
-
-    QString m_audio;
 
 public:
     explicit Controller(QObject *parent = nullptr);
@@ -25,6 +19,8 @@ public:
     Q_PROPERTY(int voice READ voice WRITE setVoice NOTIFY voiceChanged)
     Q_PROPERTY(QString image READ image WRITE setImage NOTIFY imageChanged)
     Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
+
+    Q_PROPERTY(QTime alarmTime READ alarmTime WRITE setAlarmTime NOTIFY alarmTimeChanged)
 
     int opacity() const;
     void setOpacity(int newOpacity);
@@ -38,12 +34,23 @@ public:
     const QString &audio() const;
     void setAudio(const QString &newAudio);
 
-signals:
+    const QTime &alarmTime() const;
+    void setAlarmTime(const QTime &newAlatmTime);
 
+signals:
     void opacityChanged();
     void voiceChanged();
     void imageChanged();
     void audioChanged();
+    void alarmTimeChanged();
+
+private:
+    int _opacity;
+    int _voice;
+    QString _image;
+    QString _audio;
+
+    QTime _alarmTime;
 };
 
 #endif // CONTROLLER_H

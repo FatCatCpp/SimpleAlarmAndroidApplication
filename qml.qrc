@@ -24,5 +24,6 @@
         <file>qml/components/CustomSwitch.qml</file>
         <file>images/cancel.png</file>
         <file>qml/components/CustomPopup.qml</file>
+        <file>qml/components/CustomTumbler.qml</file>
     </qresource>
 </RCC>
