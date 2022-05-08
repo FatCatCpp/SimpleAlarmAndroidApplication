@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 import QtMultimedia 5.12
+import QtQuick.Dialogs 1.3
 import "components"
 
 Item {
@@ -521,6 +522,14 @@ Item {
         buttonSelectSound.visible = stateButtons
         buttonStop.visible = stateButtons
         buttonPlay.visible = stateButtons
+    }
+
+    Connections {
+        target: controller
+
+        onGoAlarm: {
+            alarmAudio.play()
+        }
     }
 
 

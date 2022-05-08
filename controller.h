@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QTime>
+#include <QTimer>
 
 class Controller : public QObject
 {
@@ -37,12 +38,16 @@ public:
     const QTime &alarmTime() const;
     void setAlarmTime(const QTime &newAlatmTime);
 
+private:
+    int createMillisecondsInterval(QTime time);
+
 signals:
     void opacityChanged();
     void voiceChanged();
     void imageChanged();
     void audioChanged();
     void alarmTimeChanged();
+    void goAlarm();
 
 private:
     int _opacity;
@@ -51,6 +56,7 @@ private:
     QString _audio;
 
     QTime _alarmTime;
+    QTimer *alarm;
 };
 
 #endif // CONTROLLER_H

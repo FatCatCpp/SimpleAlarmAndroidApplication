@@ -179,8 +179,8 @@ Item {
 
             visible: !alarmFullView
 
-            switchWidth: 45
-            switchHeight: 20
+            switchWidth: 50
+            switchHeight: 25
 
             anchors {
                 verticalCenter: parent.verticalCenter
@@ -361,23 +361,6 @@ Item {
             id: sound
             source: "qrc:/sounds/slash-21834.wav"
 //            volume:
-        }
-
-        FileDialog {
-            id: fileDialog
-
-            nameFilters: ["Text files (*.txt)", "All files (*)"]
-            selectExisting: false
-
-            title: "Пожалуйста, выберите папку для сохранения отчёта"
-
-            folder: shortcuts.pictures
-            onAccepted: {
-                var filePath = fileDialog.fileUrl.toString().replace("file:///", "")
-            }
-            onRejected: {
-                console.log("Canceled")
-            }
         }
     }
 

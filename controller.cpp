@@ -2,6 +2,13 @@
 
 Controller::Controller(QObject *parent) : QObject(parent) {
 
+    alarm = new QTimer(this);
+    QTime time(21, 36);
+    alarm->setInterval(createMillisecondsInterval(time));
+
+    connect(alarm, &QTimer::timeout, this, [=]() {
+        emit goAlarm();
+    });
 }
 
 QStringList Controller::createHours() {
@@ -32,67 +39,71 @@ QStringList Controller::createMinutes() {
     return minutes;
 }
 
-int Controller::opacity() const
-{
+int Controller::opacity() const {
     return _opacity;
 }
 
-void Controller::setOpacity(int newOpacity)
-{
-    if (_opacity == newOpacity)
+void Controller::setOpacity(int newOpacity) {
+    if (_opacity == newOpacity) {
         return;
+    }
+
     _opacity = newOpacity;
     emit opacityChanged();
 }
 
-int Controller::voice() const
-{
+int Controller::voice() const {
     return _voice;
 }
 
-void Controller::setVoice(int newVoice)
-{
-    if (_voice == newVoice)
+void Controller::setVoice(int newVoice) {
+    if (_voice == newVoice) {
         return;
+    }
+
     _voice = newVoice;
     emit voiceChanged();
 }
 
-const QString &Controller::image() const
-{
+const QString &Controller::image() const {
     return _image;
 }
 
-void Controller::setImage(const QString &newImage)
-{
-    if (_image == newImage)
+void Controller::setImage(const QString &newImage) {
+    if (_image == newImage) {
         return;
+    }
+
     _image = newImage;
     emit imageChanged();
 }
 
-const QString &Controller::audio() const
-{
+const QString &Controller::audio() const {
     return _audio;
 }
 
-void Controller::setAudio(const QString &newAudio)
-{
-    if (_audio == newAudio)
+void Controller::setAudio(const QString &newAudio) {
+    if (_audio == newAudio) {
         return;
+    }
+
     _audio = newAudio;
     emit audioChanged();
 }
 
-const QTime &Controller::alarmTime() const
-{
+const QTime &Controller::alarmTime() const {
     return _alarmTime;
 }
 
-void Controller::setAlarmTime(const QTime &newAlatmTime)
-{
-    if (_alarmTime == newAlatmTime)
+void Controller::setAlarmTime(const QTime &newAlatmTime) {
+    if (_alarmTime == newAlatmTime) {
         return;
+    }
+
     _alarmTime = newAlatmTime;
     emit alarmTimeChanged();
+}
+
+int Controller::createMillisecondsInterval(QTime time) {
+    return (time.msecsSinceStartOfDay() - QTime::currentTime().msecsSinceStartOfDay());
 }
