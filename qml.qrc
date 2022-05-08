@@ -25,5 +25,11 @@
         <file>images/cancel.png</file>
         <file>qml/components/CustomPopup.qml</file>
         <file>qml/components/CustomTumbler.qml</file>
+        <file>images/alarmClock.png</file>
+        <file>images/alarmClockOn.png</file>
+        <file>images/stopwatch.png</file>
+        <file>images/stopwatchOn.png</file>
+        <file>images/timer.png</file>
+        <file>images/timerOn.png</file>
     </qresource>
 </RCC>
