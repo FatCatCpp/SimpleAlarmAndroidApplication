@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import QtMultimedia 5.12
 
@@ -11,28 +12,109 @@ ApplicationWindow {
 
     color: "#F0F0F0"
 
-    MainPage {
-        id: mainPage
+    TabView {
+        id: mainTab
 
-        anchors.fill: parent
-        onCall: {
-            settingsPage.state = "show"
-        }
-    }
-
-    SettingsPage {
-        id: settingsPage
-
-        state: ""
-
-        showWidth: mainWindow.width
-
-        width: -1000
+        width: parent.width
         height: parent.height
 
-        onCall: {
-            settingsPage.state = ""
-            mainPage.opacityValue = picOpacity
+        frameVisible: false
+        tabPosition: Qt.BottomEdge
+
+        currentIndex: 0
+
+        style: TabViewStyle {
+            tab: Rectangle {
+                function tabImage(index) {
+                    switch (index) {
+                        case 0: {
+                            if (styleData.selected)
+                                return "qrc:/images/alarmClockOn.png"
+                            else
+                                return "qrc:/images/alarmClock.png"
+                        }
+                        case 1: {
+                            if (styleData.selected)
+                                return "qrc:/images/timerOn.png"
+                            else
+                                return "qrc:/images/timer.png"
+                        }
+                        case 2: {
+                            if (styleData.selected)
+                                return "qrc:/images/stopwatchOn.png"
+                            else
+                                return "qrc:/images/stopwatch.png"
+                        }
+                    }
+                }
+
+                color: "transparent"
+                implicitWidth: mainWindow.width / 3
+                implicitHeight: tabText.height + 75
+
+                Image {
+                    id: picture
+                    source: tabImage(styleData.index)
+                    width: 40
+                    height: 40
+
+                    anchors.centerIn: parent
+                }
+
+                Text {
+                    id: tabText
+
+                    text: styleData.title
+                    opacity: styleData.selected ? 1 : 0.45
+                    color: "#2E9BFE"
+
+                    anchors {
+                        top: picture.bottom
+                        topMargin: 5
+                        horizontalCenter: parent.horizontalCenter
+                    }
+
+                    font {
+                        pixelSize: 16
+                        bold: false
+                    }
+                }
+            }
+        }
+
+        Tab {
+            title: qsTr("Будильник")
+
+            MainPage {
+                id: mainPage
+
+                anchors.fill: mainWindow
+                onCall: {
+                    settingsPage.state = "show"
+                }
+            }
+
+            SettingsPage {
+                id: settingsPage
+
+                state: ""
+
+                showWidth: mainWindow.width
+
+                width: -1000
+                height: parent.height
+
+                onCall: {
+                    settingsPage.state = ""
+                    mainPage.opacityValue = picOpacity
+                }
+            }
+        }
+        Tab {
+            title: qsTr("Секундомер")
+        }
+        Tab {
+            title: qsTr("Таймер")
         }
     }
 }
