@@ -9,6 +9,16 @@ Controller::Controller(QObject *parent) : QObject(parent) {
     connect(alarm, &QTimer::timeout, this, [=]() {
         emit goAlarm();
     });
+
+    startStopwatch();
+
+    _lastTime = _centisecond = _second = _minute = _hour = 0;
+
+    stopwatch = new QTimer(this);
+    stopwatch->setInterval(10);
+    connect(stopwatch, &QTimer::timeout, this, [=]() {
+        emit goAlarm();
+    });
 }
 
 QStringList Controller::createHours() {
@@ -106,4 +116,45 @@ void Controller::setAlarmTime(const QTime &newAlatmTime) {
 
 int Controller::createMillisecondsInterval(QTime time) {
     return (time.msecsSinceStartOfDay() - QTime::currentTime().msecsSinceStartOfDay());
+}
+
+QString Controller::getTimeStr() {
+    std::string tmp =
+            (_hour < 10 ? "0" : "") + std::to_string(_hour) + ":" +
+            (_minute % 60 < 10 ? "0" : "") + std::to_string(_minute % 60) + ":" +
+            (_second % 60 < 10 ? "0" : "") + std::to_string(_second % 60) + "," +
+            (_centisecond % 100 < 10 ? "0" : "") + std::to_string(_centisecond % 100);
+
+    return QString::fromStdString(tmp);
+}
+
+void Controller::updateTimes() {
+    _centisecond = (_timer.elapsed() + _lastTime) / 10;
+    _second = _centisecond / 100;
+    _minute = _second / 60;
+    _hour = _minute / 60;
+}
+
+void Controller::startStopwatch() {
+    _isActive = true;
+//    ui->state_button->setText("Stop");
+//    _timer.start();
+    _intervalTimer = new QTimer(this);
+    _intervalTimer->setInterval(10);
+    connect(_intervalTimer, &QTimer::timeout, this, &Controller::update);
+//    _intervalTimer->start();
+}
+
+void Controller::update() {
+    updateTimes();
+    emit goStopwatch(getTimeStr());
+}
+
+void Controller::startStopwatchSlot() {
+    _timer.start();
+    _intervalTimer->start();
+}
+
+void Controller::stopStopwatchSlot() {
+    _intervalTimer->stop();
 }

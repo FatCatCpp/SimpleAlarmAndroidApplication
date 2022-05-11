@@ -12,6 +12,9 @@ ApplicationWindow {
 
     color: "#F0F0F0"
 
+    signal stopWatchSignal()
+    signal stopWatchSignal1()
+
     TabView {
         id: mainTab
 
@@ -112,6 +115,15 @@ ApplicationWindow {
         }
         Tab {
             title: qsTr("Секундомер")
+
+            StopwatchPage {
+                id: stopwatchPage
+
+                anchors.fill: parent
+
+                onStopwatchStartPush: stopWatchSignal()
+                onStopwatchStopPush: stopWatchSignal1()
+            }
         }
         Tab {
             title: qsTr("Таймер")

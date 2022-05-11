@@ -27,5 +27,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
+    QObject* home = engine.rootObjects().first();
+    QObject::connect(home, SIGNAL(stopWatchSignal()), &controller, SLOT(startStopwatchSlot()));
+    QObject::connect(home, SIGNAL(stopWatchSignal1()), &controller, SLOT(stopStopwatchSlot()));
+
     return app.exec();
 }

@@ -31,5 +31,7 @@
         <file>images/stopwatchOn.png</file>
         <file>images/timer.png</file>
         <file>images/timerOn.png</file>
+        <file>qml/StopwatchPage.qml</file>
+        <file>sounds/stopwatchEffect.wav</file>
     </qresource>
 </RCC>

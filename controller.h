@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QTime>
 #include <QTimer>
+#include <QElapsedTimer>
 
 class Controller : public QObject
 {
@@ -38,8 +39,17 @@ public:
     const QTime &alarmTime() const;
     void setAlarmTime(const QTime &newAlatmTime);
 
+public slots:
+    void update();
+    void startStopwatchSlot();
+    void stopStopwatchSlot();
+
 private:
     int createMillisecondsInterval(QTime time);
+
+    QString getTimeStr();
+    void updateTimes();
+    Q_INVOKABLE void startStopwatch();
 
 signals:
     void opacityChanged();
@@ -48,6 +58,7 @@ signals:
     void audioChanged();
     void alarmTimeChanged();
     void goAlarm();
+    void goStopwatch(const QString& timeString);
 
 private:
     int _opacity;
@@ -57,6 +68,13 @@ private:
 
     QTime _alarmTime;
     QTimer *alarm;
+    QTimer *stopwatch;
+
+    QElapsedTimer _timer;
+    QTimer* _intervalTimer;
+
+    long _centisecond, _second, _minute, _hour, _lastTime;
+    bool _isActive;
 };
 
 #endif // CONTROLLER_H
