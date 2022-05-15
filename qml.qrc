@@ -33,5 +33,7 @@
         <file>images/timerOn.png</file>
         <file>qml/StopwatchPage.qml</file>
         <file>sounds/stopwatchEffect.wav</file>
+        <file>images/volumeOff.png</file>
+        <file>images/volumeOn.png</file>
     </qresource>
 </RCC>

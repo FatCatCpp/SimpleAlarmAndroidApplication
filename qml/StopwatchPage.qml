@@ -13,6 +13,8 @@ Item {
 
     property bool startPauseStatus: true
     property bool stopStatus: false
+    property bool volumeStatus: true
+
         Rectangle {
             id: area
 
@@ -45,6 +47,33 @@ Item {
         }
 
         CustomRoundButton {
+            id: volumeOnOff
+
+            sourcePath: "qrc:/images/volumeOff.png"
+            diameter: 30
+
+            anchors {
+                top: parent.top
+                topMargin: 30
+
+                right: parent.right
+                rightMargin: 30
+            }
+
+            onClick: {
+                if (volumeStatus) {
+                    sound.muted = false
+                    volumeOnOff.sourcePath = "qrc:/images/volumeOn.png"
+                    volumeStatus = false
+                } else {
+                    sound.muted = true
+                    volumeStatus = true
+                    volumeOnOff.sourcePath = "qrc:/images/volumeOff.png"
+                }
+            }
+        }
+
+        CustomRoundButton {
             id: startPauseButton
 
             sourcePath: "qrc:/images/play.png"
@@ -63,13 +92,13 @@ Item {
                 sound.play()
                 if (startPauseStatus) {
                     startPauseStatus = false
-                    sourcePath: "qrc:/images/play.png"
+                    sourcePath = "qrc:/images/pause.png"
 
                     stopButton.opacity = 0.4
                     stopButton.enabled = false
                 } else {
                     startPauseStatus = true
-                    sourcePath: "qrc:/images/pause.png"
+                    sourcePath = "qrc:/images/play.png"
 
                     stopButton.opacity = 1
                     stopButton.enabled = true
@@ -100,10 +129,12 @@ Item {
                     opacity = 0.4
                     enabled = false
                     stopStatus = true
+                    startPauseStatus = false
                 } else {
                     opacity = 1
                     enabled = true
                     stopStatus = false
+                    startPauseStatus = true
                 }
             }
         }
@@ -119,6 +150,7 @@ Item {
         SoundEffect {
             id: sound
             source: "qrc:/sounds/stopwatchEffect.wav"
+            loops: 3000
         }
 
 //    }

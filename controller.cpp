@@ -151,10 +151,17 @@ void Controller::update() {
 }
 
 void Controller::startStopwatchSlot() {
-    _timer.start();
-    _intervalTimer->start();
+    if (_isActive) {
+        _intervalTimer->stop();
+    } else {
+        _timer.start();
+        _intervalTimer->start();
+    }
 }
 
 void Controller::stopStopwatchSlot() {
-    _intervalTimer->stop();
+//    _intervalTimer->stop();
+//    updateTimes();
+    _centisecond = _second = _minute = _hour = _lastTime = 0;
+    emit goStopwatch(getTimeStr());
 }
