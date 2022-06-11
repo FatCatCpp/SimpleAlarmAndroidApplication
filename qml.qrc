@@ -35,5 +35,9 @@
         <file>sounds/stopwatchEffect.wav</file>
         <file>images/volumeOff.png</file>
         <file>images/volumeOn.png</file>
+        <file>qml/TimerPage.qml</file>
+        <file>qml/components/CustomProgressBar.qml</file>
+        <file>images/muteOff.png</file>
+        <file>images/muteOn.png</file>
     </qresource>
 </RCC>

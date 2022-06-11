@@ -1,5 +1,7 @@
 #include "controller.h"
 
+#include <QDebug>
+
 Controller::Controller(QObject *parent) : QObject(parent) {
 
     alarm = new QTimer(this);
@@ -18,6 +20,12 @@ Controller::Controller(QObject *parent) : QObject(parent) {
     stopwatch->setInterval(10);
     connect(stopwatch, &QTimer::timeout, this, [=]() {
         emit goAlarm();
+    });
+
+    timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, &QTimer::timeout, this, [=]() {
+        updateTimerTime();
     });
 }
 
@@ -135,6 +143,16 @@ void Controller::updateTimes() {
     _hour = _minute / 60;
 }
 
+void Controller::updateTimerTime() {
+    if (_timerTime != QTime(0, 0, 0)) {
+//        emit goTimer(_timerTime.toString("hh:mm:ss"));
+        _timerTime = _timerTime.addSecs(-1);
+        emit goTimer(_timerTime.toString("hh:mm:ss"));
+    } else {
+        emit timerFinished();
+    }
+}
+
 void Controller::startStopwatch() {
     _isActive = true;
 //    ui->state_button->setText("Stop");
@@ -164,4 +182,11 @@ void Controller::stopStopwatchSlot() {
 //    updateTimes();
     _centisecond = _second = _minute = _hour = _lastTime = 0;
     emit goStopwatch(getTimeStr());
+}
+
+void Controller::timerStartSlot(int hour, int minutes, int sec)
+{
+    QTime time(hour/*0*/, minutes/*0*/, sec/*23*/);
+    _timerTime = std::move(time);
+    timer->start();
 }

@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
     QObject* home = engine.rootObjects().first();
     QObject::connect(home, SIGNAL(stopWatchSignal()), &controller, SLOT(startStopwatchSlot()));
     QObject::connect(home, SIGNAL(stopWatchSignal1()), &controller, SLOT(stopStopwatchSlot()));
+    QObject::connect(home, SIGNAL(timerStart(int, int, int)),
+                     &controller, SLOT(timerStartSlot(int, int, int)));
 
     return app.exec();
 }

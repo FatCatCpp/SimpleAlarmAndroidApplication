@@ -49,7 +49,7 @@ Item {
         CustomRoundButton {
             id: volumeOnOff
 
-            sourcePath: "qrc:/images/volumeOff.png"
+            sourcePath: "qrc:/images/muteOff.png"
             diameter: 30
 
             anchors {
@@ -63,12 +63,12 @@ Item {
             onClick: {
                 if (volumeStatus) {
                     sound.muted = false
-                    volumeOnOff.sourcePath = "qrc:/images/volumeOn.png"
+                    volumeOnOff.sourcePath = "qrc:/images/muteOn.png"
                     volumeStatus = false
                 } else {
                     sound.muted = true
                     volumeStatus = true
-                    volumeOnOff.sourcePath = "qrc:/images/volumeOff.png"
+                    volumeOnOff.sourcePath = "qrc:/images/muteOff.png"
                 }
             }
         }
@@ -84,7 +84,7 @@ Item {
                 bottomMargin: 70
 
                 left: parent.left
-                leftMargin: 70
+                leftMargin: parent.width / 4
             }
 
             onClick: {
@@ -119,7 +119,7 @@ Item {
                 bottomMargin: 70
 
                 right: parent.right
-                rightMargin: 70
+                rightMargin: parent.width / 4
             }
 
             onClick: {

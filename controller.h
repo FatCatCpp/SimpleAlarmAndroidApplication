@@ -43,12 +43,14 @@ public slots:
     void update();
     void startStopwatchSlot();
     void stopStopwatchSlot();
+    void timerStartSlot(int hour, int minutes, int sec);
 
 private:
     int createMillisecondsInterval(QTime time);
 
     QString getTimeStr();
     void updateTimes();
+    void updateTimerTime();
     Q_INVOKABLE void startStopwatch();
 
 signals:
@@ -59,6 +61,8 @@ signals:
     void alarmTimeChanged();
     void goAlarm();
     void goStopwatch(const QString& timeString);
+    void goTimer(const QString& timeString);
+    void timerFinished();
 
 private:
     int _opacity;
@@ -67,8 +71,10 @@ private:
     QString _audio;
 
     QTime _alarmTime;
+    QTime _timerTime;
     QTimer *alarm;
     QTimer *stopwatch;
+    QTimer *timer;
 
     QElapsedTimer _timer;
     QTimer* _intervalTimer;

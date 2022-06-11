@@ -15,6 +15,8 @@ ApplicationWindow {
     signal stopWatchSignal()
     signal stopWatchSignal1()
 
+    signal timerStart(int hour, int min, int sec)
+
     TabView {
         id: mainTab
 
@@ -127,6 +129,14 @@ ApplicationWindow {
         }
         Tab {
             title: qsTr("Таймер")
+
+            TimerPage {
+                id: timerPage
+
+                anchors.fill: parent
+
+                onStartTimer: timerStart(hour, min, sec)
+            }
         }
     }
 }
