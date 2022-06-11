@@ -60,18 +60,35 @@ Item {
         sourcePath: "qrc:/images/play.png"
         diameter: 50
 
-        anchors {
-            top: area.bottom
-            topMargin: 160
+        opacity: checkTimeZero() ? 0.3 : 1
+        enabled: !checkTimeZero()
 
-            left: parent.left
-            leftMargin: parent.width / 4
+        z: 2
+
+        state: ""
+        x: parent.width / 2 - width / 2
+        y: 7 * (parent.height / 8) - height / 2
+
+        transitions: Transition {
+            NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+        }
+
+        states: State {
+            name: "playButton"
+
+            PropertyChanges {
+                target: startPauseButton
+                x: parent.width / 4 - width / 2
+            }
         }
 
         onClick: {
             if (checkTimeZero()) {
                 return
             }
+
+            startPauseButton.state = "playButton"
+            stopButton.state = "stopButton"
 
             if (!timerStatus) {
                 timerStatus = true
@@ -99,18 +116,31 @@ Item {
         sourcePath: "qrc:/images/stop.png"
         diameter: 50
 
-        opacity: checkTimeZero() ? 0.3 : 1
+        opacity: checkTimeZero() ? 0 : 1
         enabled: !checkTimeZero()
 
-        anchors {
-            top: area.bottom
-            topMargin: 160
+        state: ""
+        x: parent.width / 2 - width / 2
+        y: 7 * (parent.height / 8) - height / 2
 
-            right: parent.right
-            rightMargin: parent.width / 4
+        transitions: Transition {
+            NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+        }
+
+        states: State {
+            name: "stopButton"
+
+            PropertyChanges {
+                target: stopButton
+                x: 3 * (parent.width / 4) - width / 2
+            }
         }
 
         onClick: {
+            startPauseButton.state = ""
+            stopButton.state = ""
+            audio.stop()
+
             tumblerHours.currentIndex = tumblerMinutes.currentIndex = tumblerSeconds.currentIndex = 0
 
             progress.value = 0
@@ -118,8 +148,6 @@ Item {
             tumblersVisible = true
 
             startPauseButton.sourcePath = "qrc:/images/play.png"
-//            stopButton.enabled = false
-//            stopButton.opacity = 0.3
         }
     }
 
@@ -141,11 +169,10 @@ Item {
 
         Rectangle {
             anchors.left: parent.left
-//            anchors.leftMargin: -1 * ((/*alarmDelegate*/parent.width / 3) / 3 * 2)
             anchors.leftMargin: -60
 
             y: tumblerHours.height * 0.4
-            width: /*alarmDelegate*/area.width /** 0.8*/
+            width: area.width
             height: 1
 
             LinearGradient {
@@ -161,11 +188,10 @@ Item {
 
         Rectangle {
             anchors.left: parent.left
-//            anchors.leftMargin: -1 * ((/*alarmDelegate*/parent.width / 3) / 3 * 2)
             anchors.leftMargin: -60
 
             y: tumblerHours.height * 0.6
-            width: /*alarmDelegate*/area.width /** 0.8*/
+            width: area.width
             height: 1
 
             LinearGradient {

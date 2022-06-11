@@ -79,17 +79,32 @@ Item {
             sourcePath: "qrc:/images/play.png"
             diameter: 50
 
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 70
+            z: 2
 
-                left: parent.left
-                leftMargin: parent.width / 4
+            state: ""
+            x: parent.width / 2 - width / 2
+            y: 7 * (parent.height / 8) - height / 2
+
+            transitions: Transition {
+                NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+            }
+
+            states: State {
+                name: "playButton"
+
+                PropertyChanges {
+                    target: startPauseButton
+                    x: parent.width / 4 - width / 2
+                }
             }
 
             onClick: {
+                startPauseButton.state = "playButton"
+                stopButton.state = "stopButton"
+
                 stopwatchStartPush()
                 sound.play()
+
                 if (startPauseStatus) {
                     startPauseStatus = false
                     sourcePath = "qrc:/images/pause.png"
@@ -114,12 +129,21 @@ Item {
             opacity: 0.4
             enabled: false
 
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 70
+            state: ""
+            x: parent.width / 2 - width / 2
+            y: 7 * (parent.height / 8) - height / 2
 
-                right: parent.right
-                rightMargin: parent.width / 4
+            transitions: Transition {
+                NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+            }
+
+            states: State {
+                name: "stopButton"
+
+                PropertyChanges {
+                    target: stopButton
+                    x: 3 * (parent.width / 4) - width / 2
+                }
             }
 
             onClick: {
