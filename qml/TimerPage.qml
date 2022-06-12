@@ -20,6 +20,7 @@ Item {
     property bool timerStatus: false
 
     signal startTimer(int hour, int min, int sec)
+    signal stopTimer()
 
     Rectangle {
         id: area
@@ -106,6 +107,9 @@ Item {
                 soundTimer.muted = true
 
                 startPauseButton.sourcePath = "qrc:/images/pause.png"
+            } else {
+                timerStatus = false
+                startPauseButton.sourcePath = "qrc:/images/play.png"
             }
         }
     }
@@ -148,6 +152,8 @@ Item {
             tumblersVisible = true
 
             startPauseButton.sourcePath = "qrc:/images/play.png"
+
+            stopTimer()
         }
     }
 

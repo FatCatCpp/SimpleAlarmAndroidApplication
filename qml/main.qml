@@ -16,6 +16,7 @@ ApplicationWindow {
     signal stopWatchSignal1()
 
     signal timerStart(int hour, int min, int sec)
+    signal timerStop()
 
     TabView {
         id: mainTab
@@ -136,6 +137,7 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onStartTimer: timerStart(hour, min, sec)
+                onStopTimer: timerStop()
             }
         }
     }

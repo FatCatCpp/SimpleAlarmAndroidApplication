@@ -44,6 +44,7 @@ public slots:
     void startStopwatchSlot();
     void stopStopwatchSlot();
     void timerStartSlot(int hour, int minutes, int sec);
+    void timerStopSlot();
 
 private:
     int createMillisecondsInterval(QTime time);
@@ -72,11 +73,11 @@ private:
 
     QTime _alarmTime;
     QTime _timerTime;
-    QTimer *alarm;
-    QTimer *stopwatch;
-    QTimer *timer;
+    QTimer *_alarmTimer;
+    QTimer *_stopwatchTimer;
+    QTimer *_timerTimer;
 
-    QElapsedTimer _timer;
+    QElapsedTimer _elapsedTimer;
     QTimer* _intervalTimer;
 
     long _centisecond, _second, _minute, _hour, _lastTime;

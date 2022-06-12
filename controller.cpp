@@ -2,29 +2,31 @@
 
 #include <QDebug>
 
-Controller::Controller(QObject *parent) : QObject(parent) {
+Controller::Controller(QObject *parent) : QObject(parent)
+    , _isActive(false) {
 
-    alarm = new QTimer(this);
+    _alarmTimer = new QTimer(this);
     QTime time(21, 36);
-    alarm->setInterval(createMillisecondsInterval(time));
+    _alarmTimer->setInterval(createMillisecondsInterval(time));
 
-    connect(alarm, &QTimer::timeout, this, [=]() {
+    connect(_alarmTimer, &QTimer::timeout, this, [=]() {
         emit goAlarm();
     });
 
-    startStopwatch();
+//    startStopwatch();
 
     _lastTime = _centisecond = _second = _minute = _hour = 0;
 
-    stopwatch = new QTimer(this);
-    stopwatch->setInterval(10);
-    connect(stopwatch, &QTimer::timeout, this, [=]() {
-        emit goAlarm();
+    _stopwatchTimer = new QTimer(this);
+    _stopwatchTimer->setInterval(10);
+    connect(_stopwatchTimer, &QTimer::timeout, this, [=]() {
+//        emit goAlarm();
+        update();
     });
 
-    timer = new QTimer(this);
-    timer->setInterval(1000);
-    connect(timer, &QTimer::timeout, this, [=]() {
+    _timerTimer = new QTimer(this);
+    _timerTimer->setInterval(1000);
+    connect(_timerTimer, &QTimer::timeout, this, [=]() {
         updateTimerTime();
     });
 }
@@ -137,7 +139,7 @@ QString Controller::getTimeStr() {
 }
 
 void Controller::updateTimes() {
-    _centisecond = (_timer.elapsed() + _lastTime) / 10;
+    _centisecond = (_elapsedTimer.elapsed() + _lastTime) / 10;
     _second = _centisecond / 100;
     _minute = _second / 60;
     _hour = _minute / 60;
@@ -170,11 +172,16 @@ void Controller::update() {
 
 void Controller::startStopwatchSlot() {
     if (_isActive) {
-        _intervalTimer->stop();
+        _stopwatchTimer->stop();
+        _isActive = false;
     } else {
-        _timer.start();
-        _intervalTimer->start();
+        _elapsedTimer.start();
+        _stopwatchTimer->start();
+        _isActive = true;
     }
+
+//    _stopwatchTimer->start();
+//    _elapsedTimer.start();
 }
 
 void Controller::stopStopwatchSlot() {
@@ -186,7 +193,13 @@ void Controller::stopStopwatchSlot() {
 
 void Controller::timerStartSlot(int hour, int minutes, int sec)
 {
-    QTime time(hour/*0*/, minutes/*0*/, sec/*23*/);
+    QTime time(hour, minutes, sec);
     _timerTime = std::move(time);
-    timer->start();
+    _timerTimer->start();
+}
+
+void Controller::timerStopSlot()
+{
+    _timerTimer->stop();
+//    emit
 }

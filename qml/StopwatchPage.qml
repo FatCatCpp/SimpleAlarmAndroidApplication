@@ -30,7 +30,7 @@ Item {
             Text {
                 id: timeText
 
-                text: qsTr("00:00.000")
+                text: qsTr("00:00.00")
                 anchors.centerIn: parent
                 font.pixelSize: 30
             }
