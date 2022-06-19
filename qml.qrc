@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>images/happy.png</file>
         <file>images/sad.png</file>
-        <file>sounds/slash-21834.wav</file>
         <file>sounds/eye_of_the_tiger.mp3</file>
         <file>images/basic.png</file>
         <file>images/check.png</file>
@@ -39,5 +38,7 @@
         <file>qml/components/CustomProgressBar.qml</file>
         <file>images/muteOff.png</file>
         <file>images/muteOn.png</file>
+        <file>sounds/tumblerEffect.wav</file>
+        <file>sounds/timerAlarm.wav</file>
     </qresource>
 </RCC>

@@ -359,7 +359,7 @@ Item {
 
         SoundEffect {
             id: sound
-            source: "qrc:/sounds/slash-21834.wav"
+            source: "qrc:/sounds/tumblerEffect.wav"
 //            volume:
         }
     }

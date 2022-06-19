@@ -373,7 +373,7 @@ Item {
 
     SoundEffect {
         id: sound
-        source: "qrc:/sounds/slash-21834.wav"
+        source: "qrc:/sounds/tumblerEffect.wav"
     }
 
     SoundEffect {
@@ -384,7 +384,7 @@ Item {
 
     Audio {
         id: audio
-        source: "qrc:/sounds/eye_of_the_tiger.mp3"
+        source: "qrc:/sounds/timerAlarm.wav"
     }
 
     Connections {
