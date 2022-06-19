@@ -7,7 +7,7 @@
         <file>images/basic.png</file>
         <file>images/check.png</file>
         <file>qml/main.qml</file>
-        <file>qml/MainPage.qml</file>
+        <file>qml/AlarmPage.qml</file>
         <file>qml/SettingsDelegate.qml</file>
         <file>qml/SettingsPage.qml</file>
         <file>images/folder.png</file>

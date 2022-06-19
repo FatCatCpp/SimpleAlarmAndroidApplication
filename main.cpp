@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
     QObject::connect(home, SIGNAL(timerStart(int, int, int)),
                      &controller, SLOT(timerStartSlot(int, int, int)));
     QObject::connect(home, SIGNAL(timerStop()), &controller, SLOT(timerStopSlot()));
+    QObject::connect(home, SIGNAL(stopWatchPauseSignal()),
+                     &controller, SLOT(stopwatchPauseSlot()));
 
     return app.exec();
 }

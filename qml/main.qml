@@ -14,6 +14,7 @@ ApplicationWindow {
 
     signal stopWatchSignal()
     signal stopWatchSignal1()
+    signal stopWatchPauseSignal()
 
     signal timerStart(int hour, int min, int sec)
     signal timerStop()
@@ -91,8 +92,8 @@ ApplicationWindow {
         Tab {
             title: qsTr("Будильник")
 
-            MainPage {
-                id: mainPage
+            AlarmPage {
+                id: alarmPage
 
                 anchors.fill: mainWindow
                 onCall: {
@@ -112,7 +113,7 @@ ApplicationWindow {
 
                 onCall: {
                     settingsPage.state = ""
-                    mainPage.opacityValue = picOpacity
+                    alarmPage.opacityValue = picOpacity
                 }
             }
         }
@@ -126,6 +127,7 @@ ApplicationWindow {
 
                 onStopwatchStartPush: stopWatchSignal()
                 onStopwatchStopPush: stopWatchSignal1()
+                onStopwatchPausePush: stopWatchPauseSignal()
             }
         }
         Tab {

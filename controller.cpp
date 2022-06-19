@@ -132,7 +132,7 @@ QString Controller::getTimeStr() {
     std::string tmp =
             (_hour < 10 ? "0" : "") + std::to_string(_hour) + ":" +
             (_minute % 60 < 10 ? "0" : "") + std::to_string(_minute % 60) + ":" +
-            (_second % 60 < 10 ? "0" : "") + std::to_string(_second % 60) + "," +
+            (_second % 60 < 10 ? "0" : "") + std::to_string(_second % 60) + "." +
             (_centisecond % 100 < 10 ? "0" : "") + std::to_string(_centisecond % 100);
 
     return QString::fromStdString(tmp);
@@ -201,5 +201,11 @@ void Controller::timerStartSlot(int hour, int minutes, int sec)
 void Controller::timerStopSlot()
 {
     _timerTimer->stop();
-//    emit
+    //    emit
+}
+
+void Controller::stopwatchPauseSlot()
+{
+    _stopwatchTimer->stop();
+    emit stopwatchPause();
 }

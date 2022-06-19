@@ -10,6 +10,7 @@ Item {
 //    Rectangle {
     signal stopwatchStartPush()
     signal stopwatchStopPush()
+    signal stopwatchPausePush()
 
     property bool startPauseStatus: true
     property bool stopStatus: false
@@ -30,7 +31,7 @@ Item {
             Text {
                 id: timeText
 
-                text: qsTr("00:00.00")
+                text: qsTr("00:00:00.00")
                 anchors.centerIn: parent
                 font.pixelSize: 30
             }
@@ -102,21 +103,17 @@ Item {
                 startPauseButton.state = "playButton"
                 stopButton.state = "stopButton"
 
-                stopwatchStartPush()
-                sound.play()
+                startPauseStatus = startPauseStatus ? false : true
+                sourcePath = startPauseStatus ? "qrc:/images/pause.png" : "qrc:/images/play.png"
+                stopButton.opacity = startPauseStatus ? 0.4 : 1
+                stopButton.enabled = startPauseStatus ? false : true
 
                 if (startPauseStatus) {
-                    startPauseStatus = false
-                    sourcePath = "qrc:/images/pause.png"
-
-                    stopButton.opacity = 0.4
-                    stopButton.enabled = false
+                    stopwatchStartPush()
+                    sound.play()
                 } else {
-                    startPauseStatus = true
-                    sourcePath = "qrc:/images/play.png"
-
-                    stopButton.opacity = 1
-                    stopButton.enabled = true
+                    stopwatchPausePush()
+                    sound.stop()
                 }
             }
         }
@@ -149,17 +146,14 @@ Item {
             onClick: {
                 stopwatchStopPush()
                 sound.stop()
-                if (stopStatus) {
-                    opacity = 0.4
-                    enabled = false
-                    stopStatus = true
-                    startPauseStatus = false
-                } else {
-                    opacity = 1
-                    enabled = true
-                    stopStatus = false
-                    startPauseStatus = true
-                }
+
+                startPauseButton.state = ""
+                stopButton.state = ""
+
+                opacity = stopStatus ? 0.4 : 1
+                enabled = stopStatus ? false : true
+                stopStatus = stopStatus ? true : false
+                startPauseStatus = stopStatus ? false : true
             }
         }
 
@@ -168,6 +162,14 @@ Item {
 
             onGoStopwatch: {
                 timeText.text = timeString
+            }
+        }
+
+        Connections {
+            target: Controller
+
+            onStopwatchPause: {
+//                timerStop
             }
         }
 
