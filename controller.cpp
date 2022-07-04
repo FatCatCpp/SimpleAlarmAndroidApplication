@@ -13,8 +13,6 @@ Controller::Controller(QObject *parent) : QObject(parent)
         emit goAlarm();
     });
 
-//    startStopwatch();
-
     _lastTime = _centisecond = _second = _minute = _hour = 0;
 
     _stopwatchTimer = new QTimer(this);
@@ -147,22 +145,11 @@ void Controller::updateTimes() {
 
 void Controller::updateTimerTime() {
     if (_timerTime != QTime(0, 0, 0)) {
-//        emit goTimer(_timerTime.toString("hh:mm:ss"));
         _timerTime = _timerTime.addSecs(-1);
         emit goTimer(_timerTime.toString("hh:mm:ss"));
     } else {
         emit timerFinished();
     }
-}
-
-void Controller::startStopwatch() {
-    _isActive = true;
-//    ui->state_button->setText("Stop");
-//    _timer.start();
-    _intervalTimer = new QTimer(this);
-    _intervalTimer->setInterval(10);
-    connect(_intervalTimer, &QTimer::timeout, this, &Controller::update);
-//    _intervalTimer->start();
 }
 
 void Controller::update() {
@@ -171,41 +158,30 @@ void Controller::update() {
 }
 
 void Controller::startStopwatchSlot() {
-    if (_isActive) {
-        _stopwatchTimer->stop();
-        _isActive = false;
-    } else {
-        _elapsedTimer.start();
-        _stopwatchTimer->start();
-        _isActive = true;
-    }
-
-//    _stopwatchTimer->start();
-//    _elapsedTimer.start();
+    _elapsedTimer.start();
+    _stopwatchTimer->start();
+    _isActive = true;
 }
 
-void Controller::stopStopwatchSlot() {
-//    _intervalTimer->stop();
-//    updateTimes();
+void Controller::stopStopwatch() {
     _centisecond = _second = _minute = _hour = _lastTime = 0;
     emit goStopwatch(getTimeStr());
 }
 
-void Controller::timerStartSlot(int hour, int minutes, int sec)
-{
+void Controller::timerStart(int hour, int minutes, int sec) {
     QTime time(hour, minutes, sec);
     _timerTime = std::move(time);
     _timerTimer->start();
 }
 
-void Controller::timerStopSlot()
-{
+void Controller::timerStop() {
     _timerTimer->stop();
     //    emit
 }
 
-void Controller::stopwatchPauseSlot()
-{
+void Controller::stopwatchPauseSlot() {
+    _isActive = false;
     _stopwatchTimer->stop();
+    _lastTime = _elapsedTimer.elapsed();
     emit stopwatchPause();
 }

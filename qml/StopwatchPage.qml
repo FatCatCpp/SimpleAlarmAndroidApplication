@@ -7,177 +7,176 @@ import QtQuick.Dialogs 1.3
 import "components"
 
 Item {
-//    Rectangle {
-    signal stopwatchStartPush()
+    signal stopwatchStartRestartPush()
     signal stopwatchStopPush()
     signal stopwatchPausePush()
 
     property bool startPauseStatus: true
     property bool stopStatus: false
-    property bool volumeStatus: true
+    property bool volumeStatus: false
 
-        Rectangle {
-            id: area
+    Rectangle {
+        id: area
 
+        anchors.centerIn: parent
+
+        color: "#FCFCFC"
+
+        width: parent.width * 0.9
+        height: 100
+
+        radius: 30
+
+        Text {
+            id: timeText
+
+            text: qsTr("00:00:00.00")
             anchors.centerIn: parent
+            font.pixelSize: 30
+        }
 
-            color: "#FCFCFC"
+        layer.enabled: true
+        layer.effect: DropShadow {
+            transparentBorder: true
+            horizontalOffset: 0
+            verticalOffset: 6
+            radius: 6
+            color: "#A7A7A7"
+            opacity: 0.8
+        }
+    }
 
-            width: parent.width * 0.9
-            height: 100
+    CustomRoundButton {
+        id: volumeOnOff
 
-            radius: 30
+        sourcePath: "qrc:/images/muteOn.png"
+        diameter: 45
 
-            Text {
-                id: timeText
+        anchors {
+            top: parent.top
+            topMargin: 30
 
-                text: qsTr("00:00:00.00")
-                anchors.centerIn: parent
-                font.pixelSize: 30
+            right: parent.right
+            rightMargin: 30
+        }
+
+        onClick: {
+            if (volumeStatus) {
+                sound.muted = true
+                volumeOnOff.sourcePath = "qrc:/images/muteOn.png"
+                volumeStatus = false
+            } else {
+                sound.muted = false
+                volumeStatus = true
+                volumeOnOff.sourcePath = "qrc:/images/muteOff.png"
             }
+        }
+    }
 
-            layer.enabled: true
-            layer.effect: DropShadow {
-                transparentBorder: true
-                horizontalOffset: 0
-                verticalOffset: 6
-                radius: 6
-                color: "#A7A7A7"
-                opacity: 0.8
+    CustomRoundButton {
+        id: startPauseButton
+
+        sourcePath: "qrc:/images/play.png"
+        diameter: 75
+
+        z: 2
+
+        state: ""
+        x: parent.width / 2 - width / 2
+        y: 7 * (parent.height / 8) - height / 2
+
+        transitions: Transition {
+            NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+        }
+
+        states: State {
+            name: "playButton"
+
+            PropertyChanges {
+                target: startPauseButton
+                x: parent.width / 4 - width / 2
             }
         }
 
-        CustomRoundButton {
-            id: volumeOnOff
+        onClick: {
+            startPauseButton.state = "playButton"
+            stopButton.state = "stopButton"
 
-            sourcePath: "qrc:/images/muteOff.png"
-            diameter: 45
+            startPauseStatus = startPauseStatus ? false : true
+            sourcePath = startPauseStatus ? "qrc:/images/pause.png" : "qrc:/images/play.png"
+            stopButton.opacity = startPauseStatus ? 0.4 : 1
+            stopButton.enabled = startPauseStatus ? false : true
 
-            anchors {
-                top: parent.top
-                topMargin: 30
-
-                right: parent.right
-                rightMargin: 30
-            }
-
-            onClick: {
-                if (volumeStatus) {
-                    sound.muted = false
-                    volumeOnOff.sourcePath = "qrc:/images/muteOn.png"
-                    volumeStatus = false
-                } else {
-                    sound.muted = true
-                    volumeStatus = true
-                    volumeOnOff.sourcePath = "qrc:/images/muteOff.png"
-                }
-            }
-        }
-
-        CustomRoundButton {
-            id: startPauseButton
-
-            sourcePath: "qrc:/images/play.png"
-            diameter: 75
-
-            z: 2
-
-            state: ""
-            x: parent.width / 2 - width / 2
-            y: 7 * (parent.height / 8) - height / 2
-
-            transitions: Transition {
-                NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
-            }
-
-            states: State {
-                name: "playButton"
-
-                PropertyChanges {
-                    target: startPauseButton
-                    x: parent.width / 4 - width / 2
-                }
-            }
-
-            onClick: {
-                startPauseButton.state = "playButton"
-                stopButton.state = "stopButton"
-
-                startPauseStatus = startPauseStatus ? false : true
-                sourcePath = startPauseStatus ? "qrc:/images/pause.png" : "qrc:/images/play.png"
-                stopButton.opacity = startPauseStatus ? 0.4 : 1
-                stopButton.enabled = startPauseStatus ? false : true
-
-                if (startPauseStatus) {
-                    stopwatchStartPush()
-                    sound.play()
-                } else {
-                    stopwatchPausePush()
-                    sound.stop()
-                }
-            }
-        }
-        CustomRoundButton {
-            id: stopButton
-
-            sourcePath: "qrc:/images/stop.png"
-            diameter: 75
-
-            opacity: 0.4
-            enabled: false
-
-            state: ""
-            x: parent.width / 2 - width / 2
-            y: 7 * (parent.height / 8) - height / 2
-
-            transitions: Transition {
-                NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
-            }
-
-            states: State {
-                name: "stopButton"
-
-                PropertyChanges {
-                    target: stopButton
-                    x: 3 * (parent.width / 4) - width / 2
-                }
-            }
-
-            onClick: {
-                stopwatchStopPush()
+            if (startPauseStatus) {
+                stopwatchStartRestartPush()
+                sound.play()
+            } else {
+                stopwatchPausePush()
                 sound.stop()
+            }
+        }
+    }
 
-                startPauseButton.state = ""
-                stopButton.state = ""
+    CustomRoundButton {
+        id: stopButton
 
-                opacity = stopStatus ? 0.4 : 1
-                enabled = stopStatus ? false : true
-                stopStatus = stopStatus ? true : false
-                startPauseStatus = stopStatus ? false : true
+        sourcePath: "qrc:/images/stop.png"
+        diameter: 75
+
+        opacity: 0.4
+        enabled: false
+
+        state: ""
+        x: parent.width / 2 - width / 2
+        y: 7 * (parent.height / 8) - height / 2
+
+        transitions: Transition {
+            NumberAnimation { properties: "x"; easing.type: Easing.OutExpo; duration: 700 }
+        }
+
+        states: State {
+            name: "stopButton"
+
+            PropertyChanges {
+                target: stopButton
+                x: 3 * (parent.width / 4) - width / 2
             }
         }
 
-        Connections {
-            target: Controller
+        onClick: {
+            stopwatchStopPush()
+            sound.stop()
 
-            onGoStopwatch: {
-                timeText.text = timeString
-            }
+            startPauseButton.state = ""
+            stopButton.state = ""
+
+            opacity = stopStatus ? 0.4 : 1
+            enabled = stopStatus ? false : true
+            stopStatus = stopStatus ? true : false
+            startPauseStatus = stopStatus ? false : true
         }
+    }
 
-        Connections {
-            target: Controller
+    Connections {
+        target: Controller
 
-            onStopwatchPause: {
+        onGoStopwatch: {
+            timeText.text = timeString
+        }
+    }
+
+    Connections {
+        target: Controller
+
+        onStopwatchPause: {
 //                timerStop
-            }
         }
+    }
 
-        SoundEffect {
-            id: sound
-            source: "qrc:/sounds/stopwatchEffect.wav"
-            loops: 3000
-        }
-
-//    }
+    SoundEffect {
+        id: sound
+        source: "qrc:/sounds/stopwatchEffect.wav"
+        loops: 3000
+        muted: true
+    }
 }

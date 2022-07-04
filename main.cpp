@@ -28,13 +28,18 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     QObject* home = engine.rootObjects().first();
-    QObject::connect(home, SIGNAL(stopWatchSignal()), &controller, SLOT(startStopwatchSlot()));
-    QObject::connect(home, SIGNAL(stopWatchSignal1()), &controller, SLOT(stopStopwatchSlot()));
-    QObject::connect(home, SIGNAL(timerStart(int, int, int)),
-                     &controller, SLOT(timerStartSlot(int, int, int)));
-    QObject::connect(home, SIGNAL(timerStop()), &controller, SLOT(timerStopSlot()));
+
+    QObject::connect(home, SIGNAL(stopWatchStartRestartSignal()),
+                     &controller, SLOT(startStopwatchSlot()));
+    QObject::connect(home, SIGNAL(stopWatchStopSignal()),
+                     &controller, SLOT(stopStopwatch()));
     QObject::connect(home, SIGNAL(stopWatchPauseSignal()),
                      &controller, SLOT(stopwatchPauseSlot()));
+
+    QObject::connect(home, SIGNAL(timerStart(int, int, int)),
+                     &controller, SLOT(timerStart(int, int, int)));
+    QObject::connect(home, SIGNAL(timerStop()),
+                     &controller, SLOT(timerStop()));
 
     return app.exec();
 }

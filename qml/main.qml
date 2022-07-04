@@ -12,8 +12,8 @@ ApplicationWindow {
 
     color: "#F0F0F0"
 
-    signal stopWatchSignal()
-    signal stopWatchSignal1()
+    signal stopWatchStartRestartSignal()
+    signal stopWatchStopSignal()
     signal stopWatchPauseSignal()
 
     signal timerStart(int hour, int min, int sec)
@@ -125,8 +125,8 @@ ApplicationWindow {
 
                 anchors.fill: parent
 
-                onStopwatchStartPush: stopWatchSignal()
-                onStopwatchStopPush: stopWatchSignal1()
+                onStopwatchStartRestartPush: stopWatchStartRestartSignal()
+                onStopwatchStopPush: stopWatchStopSignal()
                 onStopwatchPausePush: stopWatchPauseSignal()
             }
         }

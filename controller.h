@@ -45,14 +45,14 @@ private:
     QString getTimeStr();
     void updateTimes();
     void updateTimerTime();
-    Q_INVOKABLE void startStopwatch();
+//    Q_INVOKABLE void startStopwatch();
 
 public slots:
     void update();
     void startStopwatchSlot();
-    void stopStopwatchSlot();
-    void timerStartSlot(int hour, int minutes, int sec);
-    void timerStopSlot();
+    void stopStopwatch();
+    void timerStart(int hour, int minutes, int sec);
+    void timerStop();
     void stopwatchPauseSlot();
 
 signals:
@@ -85,6 +85,7 @@ private:
     QTimer *_timerTimer;
 
     QElapsedTimer _elapsedTimer;
+    qint64 _elapsedTimerPrev;
     QTimer* _intervalTimer;
 
     long _centisecond, _second, _minute, _hour, _lastTime;
