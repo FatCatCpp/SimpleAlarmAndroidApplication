@@ -26,17 +26,7 @@ Rectangle {
                 width: opacitySlider.visualPosition * parent.width
                 height: parent.height
                 radius: 12
-
-                LinearGradient {
-                    anchors.fill: parent
-//                    source: fillRect
-                    start: Qt.point(0, 0)
-                    end: Qt.point(300, 0)
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: "#05EDFE" }
-                        GradientStop { position: 1.0; color: "#2E9BFE" }
-                    }
-                }
+                color: "#05EDFE"
             }
         }
 

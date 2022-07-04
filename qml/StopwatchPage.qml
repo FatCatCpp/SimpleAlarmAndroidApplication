@@ -51,7 +51,7 @@ Item {
             id: volumeOnOff
 
             sourcePath: "qrc:/images/muteOff.png"
-            diameter: 30
+            diameter: 45
 
             anchors {
                 top: parent.top
@@ -78,7 +78,7 @@ Item {
             id: startPauseButton
 
             sourcePath: "qrc:/images/play.png"
-            diameter: 50
+            diameter: 75
 
             z: 2
 
@@ -121,7 +121,7 @@ Item {
             id: stopButton
 
             sourcePath: "qrc:/images/stop.png"
-            diameter: 50
+            diameter: 75
 
             opacity: 0.4
             enabled: false

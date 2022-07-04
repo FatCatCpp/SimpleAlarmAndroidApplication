@@ -59,7 +59,7 @@ Item {
         id: startPauseButton
 
         sourcePath: "qrc:/images/play.png"
-        diameter: 50
+        diameter: 75
 
         opacity: checkTimeZero() ? 0.3 : 1
         enabled: !checkTimeZero()
@@ -118,7 +118,7 @@ Item {
         id: stopButton
 
         sourcePath: "qrc:/images/stop.png"
-        diameter: 50
+        diameter: 75
 
         opacity: checkTimeZero() ? 0 : 1
         enabled: !checkTimeZero()
@@ -284,7 +284,7 @@ Item {
         id: volumeOnOff
 
         sourcePath: "qrc:/images/muteOn.png"
-        diameter: 30
+        diameter: 45
 
         anchors {
             top: parent.top

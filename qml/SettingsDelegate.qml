@@ -78,6 +78,8 @@ Item {
                 height: parent.height
 
                 anchors.fill: parent
+
+                opacity: parent.down ? 0.5 : (parent.hovered ? 0.7 : 1)
             }
 
             RotationAnimator {

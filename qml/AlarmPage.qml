@@ -44,7 +44,7 @@ Item {
         Audio {
             id: alarmAudio
 
-            source: "qrc:/sounds/eye_of_the_tiger.wav"
+            source: "qrc:/sounds/eye_of_the_tiger.mp3"
         }
 
         SettingsDelegate {
