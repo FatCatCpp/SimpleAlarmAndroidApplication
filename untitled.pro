@@ -10,7 +10,9 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 
 SOURCES += \
         controller.cpp \
-        main.cpp
+        main.cpp \
+        stopwatch.cpp \
+        timer.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,7 +32,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    controller.h
+    controller.h \
+    stopwatch.h \
+    timer.h
 
 DISTFILES += \
     Android/NotificationClient.java \

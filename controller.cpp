@@ -3,7 +3,9 @@
 #include <QDebug>
 
 Controller::Controller(QObject *parent) : QObject(parent)
-    , _isActive(false) {
+    , _isActiveStopwatch(false)
+    , _isActiveTimer(false)
+    , _isFirstTurnTimer(true) {
 
     _alarmTimer = new QTimer(this);
     QTime time(21, 36);
@@ -13,13 +15,12 @@ Controller::Controller(QObject *parent) : QObject(parent)
         emit goAlarm();
     });
 
-    _lastTime = _centisecond = _second = _minute = _hour = 0;
-
+    QTime stopwatchTimeDefault(0, 0, 0, 0);
+    _stopwatchTime = std::move(stopwatchTimeDefault);
     _stopwatchTimer = new QTimer(this);
     _stopwatchTimer->setInterval(10);
     connect(_stopwatchTimer, &QTimer::timeout, this, [=]() {
-//        emit goAlarm();
-        update();
+        updateStopwatchTime();
     });
 
     _timerTimer = new QTimer(this);
@@ -126,23 +127,6 @@ int Controller::createMillisecondsInterval(QTime time) {
     return (time.msecsSinceStartOfDay() - QTime::currentTime().msecsSinceStartOfDay());
 }
 
-QString Controller::getTimeStr() {
-    std::string tmp =
-            (_hour < 10 ? "0" : "") + std::to_string(_hour) + ":" +
-            (_minute % 60 < 10 ? "0" : "") + std::to_string(_minute % 60) + ":" +
-            (_second % 60 < 10 ? "0" : "") + std::to_string(_second % 60) + "." +
-            (_centisecond % 100 < 10 ? "0" : "") + std::to_string(_centisecond % 100);
-
-    return QString::fromStdString(tmp);
-}
-
-void Controller::updateTimes() {
-    _centisecond = (_elapsedTimer.elapsed() + _lastTime) / 10;
-    _second = _centisecond / 100;
-    _minute = _second / 60;
-    _hour = _minute / 60;
-}
-
 void Controller::updateTimerTime() {
     if (_timerTime != QTime(0, 0, 0)) {
         _timerTime = _timerTime.addSecs(-1);
@@ -152,36 +136,51 @@ void Controller::updateTimerTime() {
     }
 }
 
-void Controller::update() {
-    updateTimes();
-    emit goStopwatch(getTimeStr());
+void Controller::updateStopwatchTime() {
+    _stopwatchTime = _stopwatchTime.addMSecs(10);
+    emit goStopwatch(_stopwatchTime.toString("hh:mm:ss.zzz"));
 }
 
 void Controller::startStopwatchSlot() {
-    _elapsedTimer.start();
-    _stopwatchTimer->start();
-    _isActive = true;
+    if (!_isActiveStopwatch) {
+        _stopwatchTimer->start();
+        _isActiveStopwatch = true;
+    } else {
+        _stopwatchTimer->stop();
+        _isActiveStopwatch = false;
+        emit stopwatchPause();
+    }
 }
 
 void Controller::stopStopwatch() {
-    _centisecond = _second = _minute = _hour = _lastTime = 0;
-    emit goStopwatch(getTimeStr());
+    _stopwatchTime = QTime(0, 0, 0, 0);
+    emit goStopwatch(_stopwatchTime.toString("hh:mm:ss.zzz"));
 }
 
 void Controller::timerStart(int hour, int minutes, int sec) {
-    QTime time(hour, minutes, sec);
-    _timerTime = std::move(time);
-    _timerTimer->start();
+    if (!_isActiveTimer) {
+        if (_isFirstTurnTimer) {
+            QTime time(hour, minutes, sec);
+            _timerTime = std::move(time);
+        } else {
+            QTime time(_activeHour, _activeMinute, _activeSecond);
+            _timerTime = std::move(time);
+        }
+
+        _timerTimer->start();
+        _isActiveTimer = true;
+    } else {
+        _timerTimer->stop();
+        _isActiveTimer = false;
+
+        _activeHour = _timerTime.hour();
+        _activeMinute = _timerTime.minute();
+        _activeSecond = _timerTime.second();
+
+        emit timerPause(_timerTime.hour(), _timerTime.minute(), _timerTime.second());
+    }
 }
 
 void Controller::timerStop() {
     _timerTimer->stop();
-    //    emit
-}
-
-void Controller::stopwatchPauseSlot() {
-    _isActive = false;
-    _stopwatchTimer->stop();
-    _lastTime = _elapsedTimer.elapsed();
-    emit stopwatchPause();
 }

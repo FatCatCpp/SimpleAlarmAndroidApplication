@@ -3,6 +3,8 @@
 #include <QQmlContext>
 
 #include "controller.h"
+#include "timer.h"
+#include "stopwatch.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +21,13 @@ int main(int argc, char *argv[])
     Controller controller;
     engine.rootContext()->setContextProperty("Controller", &controller);
 
+    Timer timer;
+    engine.rootContext()->setContextProperty("TimerObject", &timer);
+
+    Stopwatch stopwatch;
+    engine.rootContext()->setContextProperty("Stopwatch", &stopwatch);
+
+
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -33,8 +42,6 @@ int main(int argc, char *argv[])
                      &controller, SLOT(startStopwatchSlot()));
     QObject::connect(home, SIGNAL(stopWatchStopSignal()),
                      &controller, SLOT(stopStopwatch()));
-    QObject::connect(home, SIGNAL(stopWatchPauseSignal()),
-                     &controller, SLOT(stopwatchPauseSlot()));
 
     QObject::connect(home, SIGNAL(timerStart(int, int, int)),
                      &controller, SLOT(timerStart(int, int, int)));

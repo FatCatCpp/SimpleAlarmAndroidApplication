@@ -41,19 +41,14 @@ public:
 
 private:
     int createMillisecondsInterval(QTime time);
-
-    QString getTimeStr();
-    void updateTimes();
     void updateTimerTime();
-//    Q_INVOKABLE void startStopwatch();
+    void updateStopwatchTime();
 
 public slots:
-    void update();
     void startStopwatchSlot();
     void stopStopwatch();
     void timerStart(int hour, int minutes, int sec);
     void timerStop();
-    void stopwatchPauseSlot();
 
 signals:
     void opacityChanged();
@@ -70,7 +65,7 @@ signals:
     void timerFinished();
 
     void stopwatchPause();
-    void timerPause();
+    void timerPause(int hour, int minutes, int sec);
 
 private:
     int _opacity;
@@ -80,16 +75,19 @@ private:
 
     QTime _alarmTime;
     QTime _timerTime;
+    QTime _stopwatchTime;
+
     QTimer *_alarmTimer;
     QTimer *_stopwatchTimer;
     QTimer *_timerTimer;
 
-    QElapsedTimer _elapsedTimer;
-    qint64 _elapsedTimerPrev;
-    QTimer* _intervalTimer;
+    bool _isActiveStopwatch;
+    bool _isActiveTimer;
+    bool _isFirstTurnTimer;
 
-    long _centisecond, _second, _minute, _hour, _lastTime;
-    bool _isActive;
+    int _activeHour;
+    int _activeMinute;
+    int _activeSecond;
 };
 
 #endif // CONTROLLER_H

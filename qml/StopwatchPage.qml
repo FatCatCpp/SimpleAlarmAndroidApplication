@@ -102,18 +102,19 @@ Item {
             startPauseButton.state = "playButton"
             stopButton.state = "stopButton"
 
-            startPauseStatus = startPauseStatus ? false : true
             sourcePath = startPauseStatus ? "qrc:/images/pause.png" : "qrc:/images/play.png"
             stopButton.opacity = startPauseStatus ? 0.4 : 1
             stopButton.enabled = startPauseStatus ? false : true
 
+            stopwatchStartRestartPush()
+
             if (startPauseStatus) {
-                stopwatchStartRestartPush()
                 sound.play()
             } else {
-                stopwatchPausePush()
                 sound.stop()
             }
+
+            startPauseStatus = startPauseStatus ? false : true
         }
     }
 

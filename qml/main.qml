@@ -92,15 +92,6 @@ ApplicationWindow {
         Tab {
             title: qsTr("Будильник")
 
-            AlarmPage {
-                id: alarmPage
-
-                anchors.fill: mainWindow
-                onCall: {
-                    settingsPage.state = "show"
-                }
-            }
-
             SettingsPage {
                 id: settingsPage
 
@@ -116,6 +107,15 @@ ApplicationWindow {
                     alarmPage.opacityValue = picOpacity
                 }
             }
+
+            AlarmPage {
+                id: alarmPage
+
+                anchors.fill: mainWindow
+                onCall: {
+                    settingsPage.state = "show"
+                }
+            }
         }
         Tab {
             title: qsTr("Секундомер")
@@ -127,7 +127,6 @@ ApplicationWindow {
 
                 onStopwatchStartRestartPush: stopWatchStartRestartSignal()
                 onStopwatchStopPush: stopWatchStopSignal()
-                onStopwatchPausePush: stopWatchPauseSignal()
             }
         }
         Tab {

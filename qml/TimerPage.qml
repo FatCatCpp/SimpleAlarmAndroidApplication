@@ -13,6 +13,10 @@ Item {
     property int timerMinutes: 0
     property int timerSeconds: 0
 
+    property int activeTimerHours: 0
+    property int activeTimerMinutes: 0
+    property int activeTimerSeconds: 0
+
     property int rotationCounter: 0
     property int timerSecondsDuration: 0
 
@@ -110,6 +114,7 @@ Item {
             } else {
                 timerStatus = false
                 startPauseButton.sourcePath = "qrc:/images/play.png"
+                signalTimer.running = false
             }
         }
     }
@@ -400,6 +405,16 @@ Item {
 
         onTimerFinished: {
             audio.play()
+        }
+    }
+
+    Connections {
+        target: Controller
+
+        onTimerPause: {
+            activeTimerHours = hour
+            activeTimerMinutes = minutes
+            activeTimerSeconds = sec
         }
     }
 }
